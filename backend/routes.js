@@ -109,28 +109,23 @@ module.exports = function routes(app, logger) {
   });
 
 
+  // POST /api/tags (create new tag)
+  app.post('/tags', (req, res) => {
+    var tag_content = req.body.tag_content;
 
-// POST /api/tags (create new tag)
-router.post('/tags', async (req, res) => 
-	var tag_content = req.param('tag_content');
-
-	con.query("INSERT INTO tag (tag_content) VALUES (?)", tag_content, function (err, result, fields) {
-		if (err) throw err;
-		res.end(JSON.stringify(result)); // Result in JSON format
-	});
-});
-
-
-// GET /api/tags (get list of tags)
-router.get('/tags', function (req, res) {
-	con.query("SELECT * FROM tag", function (err, result, fields) {
-		if (err) throw err;
-		res.end(JSON.stringify(result));
-	});
-});
+    con.query("INSERT INTO tag (tag_content) VALUES (?)", tag_content, function (err, result, fields) {
+      if (err) throw err;
+      res.end(JSON.stringify(result)); // Result in JSON format
+    });
+  });
 
 
-
-
+  // GET /api/tags (get list of tags)
+  app.get('/tags', (req, res) => {
+    con.query("SELECT * FROM tag", function (err, result, fields) {
+      if (err) throw err;
+      res.end(JSON.stringify(result));
+    });
+  });
 
 }

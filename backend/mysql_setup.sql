@@ -15,3 +15,9 @@ CREATE TABLE `users` (
 );
 
 
+create table tag (
+    id int,
+    tag_content varchar(200)
+);
+
+alter table tag modify column id int not null auto_increment primary key;

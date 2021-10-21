@@ -113,7 +113,7 @@ module.exports = function routes(app, logger) {
   app.post('/tags', (req, res) => {
     var content = req.body.content;
 
-    con.query("INSERT INTO tags (content) VALUES (?)", content, function (err, result, fields) {
+    pool.query("INSERT INTO tags (content) VALUES (?)", content, function (err, result, fields) {
       if (err) throw err;
       res.end(JSON.stringify(result)); // Result in JSON format
     });
@@ -122,7 +122,7 @@ module.exports = function routes(app, logger) {
 
   // GET /api/tags (get list of tags)
   app.get('/tags', (req, res) => {
-    con.query("SELECT * FROM tags", function (err, result, fields) {
+    pool.query("SELECT * FROM tags", function (err, result, fields) {
       if (err) throw err;
       res.end(JSON.stringify(result));
     });
@@ -137,7 +137,7 @@ module.exports = function routes(app, logger) {
 
     const sql = "INSERT INTO articles ( url, is_opinion_piece, is_verified, summary, author_name) VALUES(?,?,?,?,?,?)";
 
-    con.query(sql, [url, is_opinion_piece, is_verified, summary, author_name], function (err, result, fields) {
+    pool.query(sql, [url, is_opinion_piece, is_verified, summary, author_name], function (err, result, fields) {
       if (err) throw err;
       res.end(JSON.stringify(result)); // Result in JSON format
     });
@@ -146,7 +146,7 @@ module.exports = function routes(app, logger) {
 
   // Get all articles
   app.get('/articles', (req, res) => {
-    con.query("SELECT * FROM articles", function (err, result, fields) {
+    pool.query("SELECT * FROM articles", function (err, result, fields) {
       if (err) throw err;
       res.end(JSON.stringify(result));
     });
@@ -156,7 +156,7 @@ module.exports = function routes(app, logger) {
   app.delete('/articles/:id', (req, res) => {
     const { id } = req.params;
 
-    con.query("SELECT * FROM articles WHERE id = ?", [id], function (err, result, fields) {
+    pool.query("SELECT * FROM articles WHERE id = ?", [id], function (err, result, fields) {
       if (err) throw err;
       res.end(JSON.stringify(result));
     });
@@ -167,7 +167,7 @@ module.exports = function routes(app, logger) {
     const { id } = req.params;
     const { direction } = req.body;
 
-    con.query("SELECT * FROM articles WHERE id = ?", [id], function (err, rows, fields) {
+    pool.query("SELECT * FROM articles WHERE id = ?", [id], function (err, rows, fields) {
       if (err || !rows.length) {
         res
           .status(400)
@@ -184,7 +184,7 @@ module.exports = function routes(app, logger) {
       const new_count = num_political_votes + 1;
       const new_avg = new_count / new_sum;
 
-      con.query("UPDATE articles SET num_political_votes = ?, avg_political_bias = ? WHERE id = ?", [new_count, new_avg, id], function (err, result, fields) {
+      pool.query("UPDATE articles SET num_political_votes = ?, avg_political_bias = ? WHERE id = ?", [new_count, new_avg, id], function (err, result, fields) {
         if (err) throw err;
         res.end(JSON.stringify(result));
       });
@@ -195,7 +195,7 @@ module.exports = function routes(app, logger) {
   app.put('/articles', (req, res) => {
     const { id, author_name, summary, is_verified, is_opinion_piece } = req.body;
 
-    con.query("UPDATE articles SET author_name = ?, summary = ?, is_verified = ?, is_opinion_piece = ? WHERE id = ?", [author_name, summary, is_verified, is_opinion_piece, id], function (err, rows, fields) {
+    pool.query("UPDATE articles SET author_name = ?, summary = ?, is_verified = ?, is_opinion_piece = ? WHERE id = ?", [author_name, summary, is_verified, is_opinion_piece, id], function (err, rows, fields) {
       if (err) throw err;
       res.end(JSON.stringify(result));
     });

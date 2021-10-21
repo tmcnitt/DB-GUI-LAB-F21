@@ -129,3 +129,7 @@ module.exports = function routes(app, logger) {
   });
 
 }
+
+
+// GET /sources (get all sources)
+// POST /sources - Create a new source

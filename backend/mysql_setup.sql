@@ -36,6 +36,15 @@ CREATE TABLE `articles` (
   UNIQUE KEY `id` (`id`)
 );
 
+
+CREATE TABLE `comment` (
+    `id` int,
+    `article_id` int,
+    `user_id` int,
+    `num_likes` int,
+    `comment` varchar(255)
+);
+
 CREATE TABLE IF NOT EXISTS sources (
     source_id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
     source_name VARCHAR(255) NOT NULL,

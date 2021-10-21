@@ -108,7 +108,7 @@ module.exports = function routes(app, logger) {
       });
   });
 
-
+  //TAGS
   // POST /api/tags (create new tag)
   app.post('/tags', (req, res) => {
     var content = req.body.content;
@@ -200,5 +200,25 @@ module.exports = function routes(app, logger) {
       res.end(JSON.stringify(result));
     });
   });
+
+
+  //COMMENTS
+
+  //get comments
+  app.get('/articles/:article_id/comments', function (req, res) {
+    con.query("SELECT * FROM comment WHERE article_id=?", [req.params.article_id], function (err, result, fields) {
+      if (err) throw err;
+      res.end(JSON.stringify(result));
+    });
+  });
+
+  //post like to comment
+  app.post('/articles/:article_id/comments/:comment_id/like', async (req, res)=>{
+    con.query( "UPDATE `comment` SET `num_likes` = (`num_likes` + 1) WHERE `article_id = ? AND `id` = ?", [req.params.article_id, req.params.comment_id], function (err, result, fields) {
+      if (err) throw err;
+      res.end(JSON.stringify(result));
+    });
+  });
+
 
 }

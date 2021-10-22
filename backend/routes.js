@@ -206,15 +206,15 @@ module.exports = function routes(app, logger) {
 
   //get comments
   app.get('/articles/:article_id/comments', function (req, res) {
-    pool.query("SELECT * FROM comment WHERE article_id=?", [req.params.article_id], function (err, result, fields) {
+    pool.query("SELECT * FROM comments WHERE article_id=?", [req.params.article_id], function (err, result, fields) {
       if (err) throw err;
       res.end(JSON.stringify(result));
     });
   });
 
-  //post like to comment
+  //post like to comments
   app.post('/articles/:article_id/comments/:comment_id/like', async (req, res)=>{
-    pool.query( "UPDATE `comment` SET `num_likes` = (`num_likes` + 1) WHERE `article_id = ? AND `id` = ?", [req.params.article_id, req.params.comment_id], function (err, result, fields) {
+    pool.query( "UPDATE `comments` SET `num_likes` = (`num_likes` + 1) WHERE `article_id = ? AND `id` = ?", [req.params.article_id, req.params.comment_id], function (err, result, fields) {
       if (err) throw err;
       res.end(JSON.stringify(result));
     });

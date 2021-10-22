@@ -37,7 +37,7 @@ CREATE TABLE `articles` (
 );
 
 
-CREATE TABLE `comment` (
+CREATE TABLE `comments` (
     `id` int,
     `article_id` int,
     `user_id` int,

@@ -38,11 +38,13 @@ CREATE TABLE `articles` (
 
 
 CREATE TABLE `comments` (
-    `id` int,
+    `id` bigint unsigned NOT NULL AUTO_INCREMENT,
     `article_id` int,
     `user_id` int,
     `num_likes` int,
-    `comment` varchar(255)
+    `comment` varchar(255),
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `id` (`id`)
 );
 
 CREATE TABLE IF NOT EXISTS sources (

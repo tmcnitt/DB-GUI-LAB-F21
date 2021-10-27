@@ -224,9 +224,9 @@ module.exports = function routes(app, logger) {
     });
   });
 
-  // PUT /sources
+  // *PUT /sources*
 
-  // POST /sources/{id}/vote
+  // *POST /sources/{id}/vote*
 
 
   // ARTICLE TAGS

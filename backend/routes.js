@@ -201,21 +201,56 @@ module.exports = function routes(app, logger) {
     });
   });
 
-  // // Create a new source
-  // app.post('/sources', (req, res) => {
-  //   /////
-  //   /////
-  //   pool.query("INSERT INTO tag (tag_content) VALUES (?)", tag_content, function (err, result, fields) {
-  //     if (err) throw err;
-  //     res.end(JSON.stringify(result)); // Result in JSON format
-  //   });
-  // });
 
-  // Get all sources
+  // SOURCES
+
+  // POST /sources - Create a new source
+  app.post('/sources', (req, res) => {
+    const { name, base_url, owner_name, avg_political_bias, num_political_votes } = req.body;
+
+    const sql = "INSERT INTO sources (name, base_url, owner_name) VALUES (?,?,?)";
+
+    pool.query(sql, [source_id, name, base_url, owner_name], function (err, result, fields) {
+      if (err) throw err;
+      res.end(JSON.stringify(result));
+    });
+  });
+
+  // GET /sources - Get all sources
   app.get('/sources', (req, res) => {
     pool.query("SELECT * FROM source", function (err, result, fields) {
       if (err) throw err;
       res.end(JSON.stringify(result));
     });
   });
+
+  // PUT /sources
+
+  // POST /sources/{id}/vote
+
+
+  // ARTICLE TAGS
+
+  // POST /articles/{id}/tags
+  app.post('/articles/:id/tags', (req, res) => {
+    const { article_id } = req.params;
+    const { tag_id } = req.body;
+
+    pool.query("INSERT INTO articleTags (article_id, tag_id) VALUES (?, ?) ", id, function (err, result, fields) {
+      if (err) throw err;
+      res.end(JSON.stringify(result));
+    });
+  });
+
+  // DELETE /articles/{id}/tags/{tag_id}
+  app.delete('/articles/:id/tags/:tag_id', (req, res) => {
+    const { article_id } = req.params;
+    const { tag_id } = req.params;
+
+    pool.query("DELETE FROM tagArticles WHERE article_id = ? AND tag_id = ?", [article_id, tag_id], function (err, result, fields) {
+      if (err) throw err;
+      res.end(JSON.stringify(result));
+    });
+  });
+
 }

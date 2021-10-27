@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS 'sources' (
   'average_political_bias' DECIMAL(5, 2),
   'num_political_votes' INT
 );
-CREATE TABLE IF NOT EXISTS 'tagArticle' (
+CREATE TABLE IF NOT EXISTS 'tagArticles' (
   'id' INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
   'article_id' INT NOT NULL,
   'tag_id' INT NOT NULL,

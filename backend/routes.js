@@ -113,23 +113,38 @@ module.exports = function routes(app, logger) {
   app.post('/tags', (req, res) => {
     var tag_content = req.body.tag_content;
 
-    con.query("INSERT INTO tag (tag_content) VALUES (?)", tag_content, function (err, result, fields) {
+    pool.query("INSERT INTO tag (tag_content) VALUES (?)", tag_content, function (err, result, fields) {
       if (err) throw err;
-      res.end(JSON.stringify(result)); // Result in JSON format
+      res.end(JSON.stringify(result)); // Result in JSON format[]
     });
   });
 
 
   // GET /api/tags (get list of tags)
   app.get('/tags', (req, res) => {
-    con.query("SELECT * FROM tag", function (err, result, fields) {
+    pool.query("SELECT * FROM tag", function (err, result, fields) {
       if (err) throw err;
       res.end(JSON.stringify(result));
     });
   });
 
+  // // POST /sources - Create a new source
+  // app.post('/sources', (req, res) => {
+  //   /////
+  //   /////
+  //   pool.query("INSERT INTO tag (tag_content) VALUES (?)", tag_content, function (err, result, fields) {
+  //     if (err) throw err;
+  //     res.end(JSON.stringify(result)); // Result in JSON format
+  //   });
+  // });
+
+  // GET /sources (get all sources)
+  app.get('/sources', (req, res) => {
+    pool.query("SELECT * FROM source", function (err, result, fields) {
+      if (err) throw err;
+      res.end(JSON.stringify(result));
+    });
+  });
+
+
 }
-
-
-// GET /sources (get all sources)
-// POST /sources - Create a new source

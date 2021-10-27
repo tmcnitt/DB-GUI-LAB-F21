@@ -236,7 +236,7 @@ module.exports = function routes(app, logger) {
     const { article_id } = req.params;
     const { tag_id } = req.body;
 
-    pool.query("INSERT INTO articleTags (article_id, tag_id) VALUES (?, ?) ", id, function (err, result, fields) {
+    pool.query("INSERT INTO tagArticles (article_id, tag_id) VALUES (?, ?) ", id, function (err, result, fields) {
       if (err) throw err;
       res.end(JSON.stringify(result));
     });

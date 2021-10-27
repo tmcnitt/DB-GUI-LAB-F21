@@ -28,7 +28,7 @@ CREATE TABLE `articles` (
   UNIQUE KEY `id` (`id`)
 );
 CREATE TABLE IF NOT EXISTS `sources` (
-  `source_id` INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+  `id` INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
   `name` VARCHAR(255) NOT NULL,
   `base_url` VARCHAR(255),
   `owner_name` VARCHAR(255),

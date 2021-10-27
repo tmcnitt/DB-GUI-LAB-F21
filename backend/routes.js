@@ -201,7 +201,7 @@ module.exports = function routes(app, logger) {
     });
   });
 
-  // // POST /sources - Create a new source
+  // // Create a new source
   // app.post('/sources', (req, res) => {
   //   /////
   //   /////
@@ -211,7 +211,7 @@ module.exports = function routes(app, logger) {
   //   });
   // });
 
-  // GET /sources (get all sources)
+  // Get all sources
   app.get('/sources', (req, res) => {
     pool.query("SELECT * FROM source", function (err, result, fields) {
       if (err) throw err;

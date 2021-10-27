@@ -30,10 +30,10 @@ CREATE TABLE `articles` (
 CREATE TABLE IF NOT EXISTS `sources` (
   `id` INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
   `name` VARCHAR(255) NOT NULL,
-  `base_url` VARCHAR(255),
-  `owner_name` VARCHAR(255),
+  `base_url` VARCHAR(255) NOT NULL,
+  `owner_name` VARCHAR(255) NOT NULL,
   `average_political_bias` DECIMAL(5, 2),
-  `num_political_votes` INT
+  `num_political_votes` INT NOT NULL DEFAULT 0
 );
 CREATE TABLE IF NOT EXISTS `tagArticles` (
   `id` INT AUTO_INCREMENT NOT NULL PRIMARY KEY,

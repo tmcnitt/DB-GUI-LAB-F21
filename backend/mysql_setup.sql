@@ -11,9 +11,10 @@ CREATE TABLE `users` (
   UNIQUE KEY `id` (`id`),
   UNIQUE KEY `username` (`username`)
 );
-create table `tags` (`id` int, `content` varchar(200));
-alter table `tags`
-modify column id int not null auto_increment primary key;
+create table `tags` (
+  `id` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `content` varchar(200)
+);
 CREATE TABLE `articles` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `url` varchar(255) NOT NULL,

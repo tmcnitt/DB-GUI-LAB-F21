@@ -210,7 +210,7 @@ module.exports = function routes(app, logger) {
 
     const sql = "INSERT INTO sources (name, base_url, owner_name) VALUES (?,?,?)";
 
-    pool.query(sql, [source_id, name, base_url, owner_name], function (err, result, fields) {
+    pool.query(sql, [name, base_url, owner_name], function (err, result, fields) {
       if (err) throw err;
       res.end(JSON.stringify(result));
     });
@@ -218,7 +218,7 @@ module.exports = function routes(app, logger) {
 
   // GET /sources - Get all sources
   app.get('/sources', (req, res) => {
-    pool.query("SELECT * FROM source", function (err, result, fields) {
+    pool.query("SELECT * FROM sources", function (err, result, fields) {
       if (err) throw err;
       res.end(JSON.stringify(result));
     });
@@ -236,7 +236,7 @@ module.exports = function routes(app, logger) {
     const { article_id } = req.params;
     const { tag_id } = req.body;
 
-    pool.query("INSERT INTO tagArticles (article_id, tag_id) VALUES (?, ?) ", id, function (err, result, fields) {
+    pool.query("INSERT INTO tagArticles (article_id, tag_id) VALUES (?, ?) ", [article_id, tag_id], function (err, result, fields) {
       if (err) throw err;
       res.end(JSON.stringify(result));
     });

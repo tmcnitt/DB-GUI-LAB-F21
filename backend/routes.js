@@ -108,7 +108,7 @@ module.exports = function routes(app, logger) {
       });
   });
 
-
+  //TAGS
   // POST /api/tags (create new tag)
   app.post('/tags', (req, res) => {
     var content = req.body.content;
@@ -200,5 +200,37 @@ module.exports = function routes(app, logger) {
       res.end(JSON.stringify(result));
     });
   });
+
+
+  //COMMENTS
+
+  //get comments
+  app.get('/articles/:article_id/comments', function (req, res) {
+    pool.query("SELECT * FROM comments WHERE article_id=?", [req.params.article_id], function (err, result, fields) {
+      if (err) throw err;
+      res.end(JSON.stringify(result));
+    });
+  });
+
+  //post like to comments
+  app.post('/articles/:article_id/comments/:comment_id/like', async (req, res)=>{
+    pool.query( "UPDATE `comments` SET `num_likes` = (`num_likes` + 1) WHERE `article_id = ? AND `id` = ?", [req.params.article_id, req.params.comment_id], function (err, result, fields) {
+      if (err) throw err;
+      res.end(JSON.stringify(result));
+    });
+  });
+  
+  //post to comments
+  app.post('/articles/:article_id/comments', async (req, res)=> {
+    const { req.params.article_id, user_id, num_likes, comment } = req.body;
+    const sql = "INSERT INTO `comments`(article_id,user_id,num_likes,comment) VALUES (?,?,?,?)";
+
+    pool.query(sql, [req.params.article_id, user_id, num_likes, comment], function (err, result, fields) {
+      if(err) throw err;
+      res.end(JSON.stringify(result));
+    });
+});
+
+
 
 }

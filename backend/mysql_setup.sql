@@ -2,6 +2,7 @@
 CREATE DATABASE db;
 -- use newly create database
 USE db;
+
 CREATE TABLE `users` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `username` varchar(64) NOT NULL,
@@ -11,9 +12,10 @@ CREATE TABLE `users` (
   UNIQUE KEY `id` (`id`),
   UNIQUE KEY `username` (`username`)
 );
+
 create table `tags` (`id` int, `content` varchar(200));
-alter table `tags`
-modify column id int not null auto_increment primary key;
+alter table `tags` modify column id int not null auto_increment primary key;
+
 CREATE TABLE `articles` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `url` varchar(255) NOT NULL,
@@ -27,6 +29,7 @@ CREATE TABLE `articles` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
 );
+
 CREATE TABLE `comments` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `article_id` int,
@@ -36,6 +39,7 @@ CREATE TABLE `comments` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
 );
+
 CREATE TABLE IF NOT EXISTS `sources` (
   `id` INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
   `name` VARCHAR(255) NOT NULL,
@@ -44,6 +48,7 @@ CREATE TABLE IF NOT EXISTS `sources` (
   `average_political_bias` DECIMAL(5, 2),
   `num_political_votes` INT NOT NULL DEFAULT 0
 );
+
 CREATE TABLE IF NOT EXISTS `tagArticles` (
   `id` INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
   `article_id` INT NOT NULL,

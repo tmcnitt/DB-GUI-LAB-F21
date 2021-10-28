@@ -236,7 +236,7 @@ module.exports = function routes(app, logger) {
 
   // POST /sources - Create a new source
   app.post('/sources', (req, res) => {
-    const { name, base_url, owner_name, avg_political_bias, num_political_votes } = req.body;
+    const { name, base_url, owner_name } = req.body;
 
     const sql = "INSERT INTO sources (name, base_url, owner_name) VALUES (?,?,?)";
 
@@ -263,10 +263,10 @@ module.exports = function routes(app, logger) {
 
   // POST /articles/{id}/tags
   app.post('/articles/:id/tags', (req, res) => {
-    const { article_id } = req.params;
+    const { id } = req.params;
     const { tag_id } = req.body;
 
-    pool.query("INSERT INTO tagArticles (article_id, tag_id) VALUES (?, ?) ", [article_id, tag_id], function (err, result, fields) {
+    pool.query("INSERT INTO tagArticles (article_id, tag_id) VALUES (?, ?) ", [id, tag_id], function (err, result, fields) {
       if (err) throw err;
       res.end(JSON.stringify(result));
     });
@@ -274,10 +274,10 @@ module.exports = function routes(app, logger) {
 
   // DELETE /articles/{id}/tags/{tag_id}
   app.delete('/articles/:id/tags/:tag_id', (req, res) => {
-    const { article_id } = req.params;
+    const { id } = req.params;
     const { tag_id } = req.params;
 
-    pool.query("DELETE FROM tagArticles WHERE article_id = ? AND tag_id = ?", [article_id, tag_id], function (err, result, fields) {
+    pool.query("DELETE FROM tagArticles WHERE article_id = ? AND tag_id = ?", [id, tag_id], function (err, result, fields) {
       if (err) throw err;
       res.end(JSON.stringify(result));
     });

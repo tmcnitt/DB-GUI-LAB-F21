@@ -202,6 +202,36 @@ module.exports = function routes(app, logger) {
   });
 
 
+  //COMMENTS
+
+  //get comments
+  app.get('/articles/:article_id/comments', function (req, res) {
+    pool.query("SELECT * FROM comments WHERE article_id=?", [req.params.article_id], function (err, result, fields) {
+      if (err) throw err;
+      res.end(JSON.stringify(result));
+    });
+  });
+
+  //post like to comments
+  app.post('/articles/:article_id/comments/:comment_id/like', async (req, res) => {
+    pool.query("UPDATE `comments` SET `num_likes` = (`num_likes` + 1) WHERE `article_id` = ? AND `id` = ?", [req.params.article_id, req.params.comment_id], function (err, result, fields) {
+      if (err) throw err;
+      res.end(JSON.stringify(result));
+    });
+  });
+
+  //post to comments
+  app.post('/articles/:article_id/comments', async (req, res) => {
+    const { article_id, user_id, comment } = req.body;
+    const sql = "INSERT INTO `comments` (article_id,user_id,num_likes,comment) VALUES (?,?,?,?)";
+
+    pool.query(sql, [article_id, user_id, 0, comment], function (err, result, fields) {
+      if (err) throw err;
+      res.end(JSON.stringify(result));
+    });
+  });
+
+
   // SOURCES
 
   // POST /sources - Create a new source
@@ -229,7 +259,7 @@ module.exports = function routes(app, logger) {
   // *POST /sources/{id}/vote*
 
 
-  // ARTICLE TAGS
+  // TAG ARTICLES
 
   // POST /articles/{id}/tags
   app.post('/articles/:id/tags', (req, res) => {

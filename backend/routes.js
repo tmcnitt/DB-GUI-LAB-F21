@@ -274,7 +274,34 @@ module.exports = function routes(app, logger) {
   // *PUT /sources*
 
   // *POST /sources/{id}/vote*
+  // Vote on an article
+  app.post('/sources/:id/vote', (req, res) => {
+    const { id } = req.params;
+    const { direction } = req.body;
 
+    pool.query("SELECT * FROM sources WHERE id = ?", [id], function (err, rows, fields) {
+      if (err || !rows.length) {
+        res
+          .status(400)
+          .send({ success: false, msg: "Invalid source ID" });
+
+        return
+      }
+
+      const { avg_political_bias, num_political_votes } = rows[0];
+
+      const curr_sum = avg_political_bias * num_political_votes
+      const new_sum = curr_sum + direction;
+
+      const new_count = num_political_votes + 1;
+      const new_avg = new_sum / new_count;
+
+      pool.query("UPDATE sources SET num_political_votes = ?, avg_political_bias = ? WHERE id = ?", [new_count, new_avg, id], function (err, result, fields) {
+        if (err) throw err;
+        res.end(JSON.stringify(result));
+      });
+    });
+  });
 
   // TAG ARTICLES
 

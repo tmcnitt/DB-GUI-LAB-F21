@@ -219,6 +219,18 @@ module.exports = function routes(app, logger) {
       res.end(JSON.stringify(result));
     });
   });
+  
+  //post to comments
+  app.post('/articles/:article_id/comments', async (req, res)=> {
+    const { req.params.article_id, user_id, num_likes, comment } = req.body;
+    const sql = "INSERT INTO `comments`(article_id,user_id,num_likes,comment) VALUES (?,?,?,?)";
+
+    pool.query(sql, [req.params.article_id, user_id, num_likes, comment], function (err, result, fields) {
+      if(err) throw err;
+      res.end(JSON.stringify(result));
+    });
+});
+
 
 
 }

@@ -1,22 +1,30 @@
-import React from "react";
-import { Card } from "./Card";
+import React, {useState} from "react";
+import {Card} from "./Card";
+import {Header} from "./Header";
 import "./Homepage.css";
+import axios from "axios";
 //import Card from "Card";
-export class Homepage extends React.Component {
-    render() {
-        return (<>
-            <div id="topbar">
-                <img src="https://via.placeholder.com/150"></img>
-                <h1>Political Thingamajig</h1>
-                <div class="clear"></div>
-                <ul id="navbar">
-                    <li><a href="login">Login</a></li>
-                    <li><a href="home">Home</a></li>
-                </ul>
-                <button type="button">Add</button>
-                
+
+export const Homepage = (props) => {
+    var [title, setTitle] = useState("");
+    
+    var getCards = () => {
+        axios.get(`http://localhost:8000/articles`).then(
+            res=> {
+                //console.log(res.data);
+                setTitle(res.data[0]);
+            }
+        )
+    };
+
+    getCards();
+    return (
+        <>
+            <Header />
+            <br></br>
+            <div id="cardContainer">
+            <Card title={title.author_name}/>
             </div>
-            <Card/>
+
         </>)
-    }
 }

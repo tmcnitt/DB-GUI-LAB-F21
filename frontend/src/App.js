@@ -28,9 +28,9 @@ function App () {
 
   // fetches vals of db via GET request
   const fetchVals = () => {
-    axios.get(`http://${url}:8000/values`).then(
+    axios.get(`http://${url}:8000/articles`).then(
       res => {
-        const values = res.data.data;
+        const values = res.data;
         console.log(values);
         setValues(values)
     }).catch(err => {

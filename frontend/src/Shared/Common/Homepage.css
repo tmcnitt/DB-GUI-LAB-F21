@@ -1,50 +1,8 @@
 * {
     box-sizing: border-box;
 }
-button {
-    border: none;
-    background-color: #3f3ff5;
-    color: white;
-    border-radius: 1rem;
-    padding: .5rem 1rem;
-    float: right;
-    margin-right: 1rem;
-}
-
-img {
-    margin-left: 1rem;
-    margin-top: 1rem;
-    float: left;
-}
-
-h1 {
+#cardContainer {
+    margin-left: auto;
+    margin-right: auto;
     display: block;
-    text-align: center;
-    padding: 4.5rem;
-}
-
-#topbar {
-    background-color: #aaa;
-
-}
-
-#navbar {
-    background-color: rgb(143, 0, 0);
-    padding: 1rem;
-    padding-bottom: 2rem;
-}
-
-#navbar li {
-    float: right;
-    list-style: none;
-    margin-left: 1rem;
-}
-
-a {
-    text-decoration: none;
-    color: white;
-}
-
-.clear {
-    clear: both;
 }

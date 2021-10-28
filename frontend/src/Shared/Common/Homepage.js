@@ -1,9 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Card } from "./Card";
 import { Header } from "./Header";
 import "./Homepage.css";
-import App from "../../App";
-const url = 'localhost'
 export const Homepage = (props) => {
     var articles = props.articles;
     console.log("test");
@@ -12,6 +10,7 @@ export const Homepage = (props) => {
     return (
         <>
             <Header />
+            <button id="add" type="button">Add</button>
             <br></br>
             <div id="cardContainer">
                 {articles.map(article => {

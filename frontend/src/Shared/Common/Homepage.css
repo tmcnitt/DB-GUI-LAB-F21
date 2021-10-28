@@ -2,7 +2,16 @@
     box-sizing: border-box;
 }
 #cardContainer {
-    margin-left: auto;
-    margin-right: auto;
+    margin: auto;
     display: block;
+    width: 100%;
+}
+
+#cardContainer div {
+    margin: 1rem;
+}
+
+#add {
+    float: right;
+    margin-right: 2rem;
 }

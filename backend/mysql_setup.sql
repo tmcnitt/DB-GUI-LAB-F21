@@ -13,11 +13,7 @@ CREATE TABLE `users` (
   UNIQUE KEY `username` (`username`)
 );
 
-create table `tags` (
-    `id` int,
-    `content` varchar(200)
-);
-
+create table `tags` (`id` int, `content` varchar(200));
 alter table `tags` modify column id int not null auto_increment primary key;
 
 CREATE TABLE `articles` (
@@ -28,19 +24,34 @@ CREATE TABLE `articles` (
   `summary` varchar(255) NOT NULL,
   `created_timestamp` DATETIME DEFAULT NOW(),
   `author_name` varchar(255) NOT NULL,
-
   `avg_political_bias` FLOAT,
   `num_political_votes` INT,
-
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
 );
 
-CREATE TABLE IF NOT EXISTS sources (
-    source_id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
-    source_name VARCHAR(255) NOT NULL,
-    base_url VARCHAR(255),
-    owner_name VARCHAR(255),
-    average_political_bias DECIMAL(5, 2),
-    num_political_votes INT
+CREATE TABLE `comments` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `article_id` int,
+  `user_id` int,
+  `num_likes` int,
+  `comment` varchar(255),
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`)
+);
+
+CREATE TABLE IF NOT EXISTS `sources` (
+  `id` INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+  `name` VARCHAR(255) NOT NULL,
+  `base_url` VARCHAR(255) NOT NULL,
+  `owner_name` VARCHAR(255) NOT NULL,
+  `avg_political_bias` DECIMAL(5, 2),
+  `num_political_votes` INT NOT NULL DEFAULT 0
+);
+
+CREATE TABLE IF NOT EXISTS `tagArticles` (
+  `id` INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+  `article_id` INT NOT NULL,
+  `tag_id` INT NOT NULL,
+  `num_likes` INT NOT NULL DEFAULT 0
 );

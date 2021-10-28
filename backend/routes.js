@@ -182,7 +182,7 @@ module.exports = function routes(app, logger) {
       const new_sum = curr_sum + direction;
 
       const new_count = num_political_votes + 1;
-      const new_avg = new_count / new_sum;
+      const new_avg = new_sum / new_count;
 
       pool.query("UPDATE articles SET num_political_votes = ?, avg_political_bias = ? WHERE id = ?", [new_count, new_avg, id], function (err, result, fields) {
         if (err) throw err;

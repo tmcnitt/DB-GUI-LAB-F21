@@ -4,8 +4,16 @@ import "./Homepage.css";
 export class Homepage extends React.Component {
     render() {
         return (<>
-            <img src="https://via.placeholder.com/150"></img>
-            <h1>Political Thingamajig</h1>
+            <div id="topbar">
+                <img src="https://via.placeholder.com/150"></img>
+                <h1>Political Thingamajig</h1>
+                <ul id="navbar">
+                    <li><a href="home">Home</a></li>
+                    <li><a href="login">Login</a></li>
+                </ul>
+                <button type="button">Add</button>
+            </div>
+            
         </>)
     }
 }

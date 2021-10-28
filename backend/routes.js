@@ -236,7 +236,7 @@ module.exports = function routes(app, logger) {
 
   // POST /sources - Create a new source
   app.post('/sources', (req, res) => {
-    const { name, base_url, owner_name, avg_political_bias, num_political_votes } = req.body;
+    const { name, base_url, owner_name } = req.body;
 
     const sql = "INSERT INTO sources (name, base_url, owner_name) VALUES (?,?,?)";
 

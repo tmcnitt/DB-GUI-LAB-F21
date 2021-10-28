@@ -108,7 +108,7 @@ module.exports = function routes(app, logger) {
       });
   });
 
-
+  //TAGS
   // POST /api/tags (create new tag)
   app.post('/tags', (req, res) => {
     var content = req.body.content;
@@ -211,6 +211,11 @@ module.exports = function routes(app, logger) {
     const sql = "INSERT INTO sources (name, base_url, owner_name) VALUES (?,?,?)";
 
     pool.query(sql, [name, base_url, owner_name], function (err, result, fields) {
+  //COMMENTS
+
+  //get comments
+  app.get('/articles/:article_id/comments', function (req, res) {
+    pool.query("SELECT * FROM comments WHERE article_id=?", [req.params.article_id], function (err, result, fields) {
       if (err) throw err;
       res.end(JSON.stringify(result));
     });
@@ -219,6 +224,9 @@ module.exports = function routes(app, logger) {
   // GET /sources - Get all sources
   app.get('/sources', (req, res) => {
     pool.query("SELECT * FROM sources", function (err, result, fields) {
+  //post like to comments
+  app.post('/articles/:article_id/comments/:comment_id/like', async (req, res) => {
+    pool.query("UPDATE `comments` SET `num_likes` = (`num_likes` + 1) WHERE `article_id` = ? AND `id` = ?", [req.params.article_id, req.params.comment_id], function (err, result, fields) {
       if (err) throw err;
       res.end(JSON.stringify(result));
     });
@@ -237,6 +245,12 @@ module.exports = function routes(app, logger) {
     const { tag_id } = req.body;
 
     pool.query("INSERT INTO tagArticles (article_id, tag_id) VALUES (?, ?) ", [article_id, tag_id], function (err, result, fields) {
+  //post to comments
+  app.post('/articles/:article_id/comments', async (req, res) => {
+    const { article_id, user_id, comment } = req.body;
+    const sql = "INSERT INTO `comments` (article_id,user_id,num_likes,comment) VALUES (?,?,?,?)";
+
+    pool.query(sql, [article_id, user_id, 0, comment], function (err, result, fields) {
       if (err) throw err;
       res.end(JSON.stringify(result));
     });
@@ -252,5 +266,6 @@ module.exports = function routes(app, logger) {
       res.end(JSON.stringify(result));
     });
   });
+
 
 }

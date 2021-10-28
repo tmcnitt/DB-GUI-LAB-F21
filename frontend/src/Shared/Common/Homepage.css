@@ -28,6 +28,23 @@ h1 {
 
 }
 
-li {
+#navbar {
+    background-color: rgb(143, 0, 0);
+    padding: 1rem;
+    padding-bottom: 2rem;
+}
+
+#navbar li {
+    float: right;
+    list-style: none;
+    margin-left: 1rem;
+}
+
+a {
     text-decoration: none;
+    color: white;
+}
+
+.clear {
+    clear: both;
 }

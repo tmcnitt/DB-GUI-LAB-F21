@@ -67,7 +67,7 @@ function App () {
   }, [])
 
   return (
-    <Homepage />
+    <Homepage articles={values}/>
   );
 }
 

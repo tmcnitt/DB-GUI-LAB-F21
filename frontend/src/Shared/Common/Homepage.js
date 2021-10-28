@@ -1,30 +1,24 @@
-import React, {useState} from "react";
-import {Card} from "./Card";
-import {Header} from "./Header";
+import React, { useState, useEffect } from "react";
+import { Card } from "./Card";
+import { Header } from "./Header";
 import "./Homepage.css";
-import axios from "axios";
-//import Card from "Card";
-
+import App from "../../App";
+const url = 'localhost'
 export const Homepage = (props) => {
-    var [title, setTitle] = useState("");
-    
-    var getCards = () => {
-        axios.get(`http://localhost:8000/articles`).then(
-            res=> {
-                //console.log(res.data);
-                setTitle(res.data[0]);
-            }
-        )
-    };
+    var articles = props.articles;
+    console.log("test");
+    console.log(articles);
 
-    getCards();
     return (
         <>
             <Header />
             <br></br>
             <div id="cardContainer">
-            <Card title={title.author_name}/>
+                {articles.map(article => {
+                    return (
+                        <div key={article.id}> <Card title={article.url} author={article.author_name} content={article.summary}/></div>
+                    )
+                })}
             </div>
-
         </>)
 }

@@ -146,9 +146,26 @@ module.exports = function routes(app, logger) {
 
   // Get all articles
   app.get('/articles', (req, res) => {
-    pool.query("SELECT * FROM articles", function (err, result, fields) {
+    pool.query("SELECT * FROM articles", function (err, rows, fields) {
       if (err) throw err;
-      res.end(JSON.stringify(result));
+
+      let promises = []
+      for (let i = 0; i < rows.length; i++) {
+        const sql = "SELECT * FROM tagArticles JOIN tags ON tagArticles.tag_id = tags.id WHERE article_id = ?";
+
+        promises.push(new Promise((resolve, reject) => {
+          pool.query(sql, [rows[i].id], function (err, result, fields) {
+            if (err) throw err;
+            console.log(result)
+            rows[i].tags = result
+            resolve()
+          })
+        }))
+      }
+
+      Promise.all(promises).then(() => {
+        res.end(JSON.stringify(rows));
+      })
     });
   });
 

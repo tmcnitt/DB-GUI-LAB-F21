@@ -335,13 +335,5 @@ module.exports = function routes(app, logger) {
     });
   });
 
-  // GET /articles/{id}/tags
-  app.get('/articles/:id/tags', (req, res) => {
-    pool.query("SELECT * FROM `tagArticles` WHERE `article_id` = ?", [req.params.id], function (err, result, fields) {
-      if(err) throw err;
-      res.end(JSON.stringify(result));
-    });
-  });
-
 
 }

@@ -1,6 +1,5 @@
 import React from "react";
 import { Card } from "./Card";
-import { Header } from "./Header";
 export const Homepage = (props) => {
     var articles = props.articles;
     console.log("test");
@@ -8,7 +7,6 @@ export const Homepage = (props) => {
 
     return (
         <>
-            <Header />
             <div class="w-75 m-auto">
                 <div class="d-flex justify-content-end mt-3"><button id="add" type="button" class="btn btn-success">Add</button></div>
 

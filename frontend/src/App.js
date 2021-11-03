@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { Header } from "./Shared/Common/Header";
 import './App.css';
 import axios from 'axios';
-import {Homepage} from "./Shared";
+import { Homepage } from "./Shared";
 // React functional component
-function App () {
+function App() {
   // state for storage of the information on the webpage of forms and list, uses hooks
   const [number, setNumber] = useState("")
   const [values, setValues] = useState([])
@@ -21,7 +22,7 @@ function App () {
   }
 
   const fetchBase = () => {
-    axios.get(`http://${url}:8000/`).then((res)=>{
+    axios.get(`http://${url}:8000/`).then((res) => {
       alert(res.data);
     })
   }
@@ -33,16 +34,16 @@ function App () {
         const values = res.data;
         console.log(values);
         setValues(values)
-    }).catch(err => {
-      console.log(err)
-    });
+      }).catch(err => {
+        console.log(err)
+      });
   }
 
   // handle input form submission to backend via POST request
   const handleSubmit = (e) => {
     e.preventDefault();
     let prod = number * number;
-    axios.post(`http://${url}:8000/multplynumber`, {product: prod}).then(res => {
+    axios.post(`http://${url}:8000/multplynumber`, { product: prod }).then(res => {
       console.log(res);
       fetchVals();
     }).catch(err => {
@@ -67,7 +68,11 @@ function App () {
   }, [])
 
   return (
-    <Homepage articles={values}/>
+    <div>
+      <Header />
+      <Homepage articles={values} />
+    </div>
+
   );
 }
 

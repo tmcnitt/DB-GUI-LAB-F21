@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Header } from "./Shared/Common/Header";
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import './App.css';
 import axios from 'axios';
 import { Homepage } from "./Shared";
@@ -68,11 +69,20 @@ function App() {
   }, [])
 
   return (
-    <div>
-      <Header />
-      <Homepage articles={values} />
-    </div>
-
+    <div className="wrapper">
+    <Header />
+    <BrowserRouter>
+      <Switch>
+        <Route path="/signup">
+        </Route>
+        <Route path="/login">
+        </Route>
+        <Route path="/">
+        <Homepage articles={values} />
+        </Route>
+      </Switch>
+    </BrowserRouter>
+  </div>
   );
 }
 

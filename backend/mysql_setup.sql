@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS `sources` (
   `name` VARCHAR(255) NOT NULL,
   `base_url` VARCHAR(255) NOT NULL,
   `owner_name` VARCHAR(255) NOT NULL,
-  `average_political_bias` DECIMAL(5, 2),
+  `avg_political_bias` DECIMAL(5, 2),
   `num_political_votes` INT NOT NULL DEFAULT 0
 );
 

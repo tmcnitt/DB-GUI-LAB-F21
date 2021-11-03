@@ -335,4 +335,13 @@ module.exports = function routes(app, logger) {
     });
   });
 
+  // POST /articles/{id}/tags/{tag_id}/like
+  app.post('/articles/:id/tags/:tag_id/like', async (req, res) => {
+    pool.query("UPDATE `tagArticles` SET `num_likes` = (`num_likes` + 1) WHERE `article_id` = ? AND `id` = ?", [req.params.id, req.params.tag_id], function (err, result, fields) {
+      if(err) throw err;
+      res.end(JSON.stringify(result));
+    });
+  });
+
+
 }

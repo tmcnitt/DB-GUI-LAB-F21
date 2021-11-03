@@ -271,10 +271,18 @@ module.exports = function routes(app, logger) {
     });
   });
 
-  // *PUT /sources*
+  // PUT /sources
+  app.put('/sources', (req, res) => {
+    const { id, name, base_url, owner_name } = req.body;
 
-  // *POST /sources/{id}/vote*
-  // Vote on an article
+    pool.query("UPDATE sources SET name = ?, base_url = ?, owner_name = ? WHERE id = ?", [name, base_url, owner_name, id], function (err, result, fields) {
+      if (err) throw err;
+      res.end(JSON.stringify(result));
+    });
+  });
+
+  // POST /sources/{id}/vote
+  // Vote on a source
   app.post('/sources/:id/vote', (req, res) => {
     const { id } = req.params;
     const { direction } = req.body;

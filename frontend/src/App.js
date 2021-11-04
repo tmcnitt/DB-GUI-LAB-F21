@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Header } from "./Shared/Common/Header";
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route } from 'react-router-dom';
+import {Routes} from 'react-router';
 import './App.css';
 import axios from 'axios';
 import { Homepage } from "./Shared";
@@ -72,15 +73,15 @@ function App() {
     <div className="wrapper">
     <Header />
     <BrowserRouter>
-      <Switch>
+      <Routes>
         <Route path="/signup">
         </Route>
         <Route path="/login">
         </Route>
-        <Route path="/">
-        <Homepage articles={values} />
+        <Route exact path="/" element={<Homepage articles={values} />}>
+        
         </Route>
-      </Switch>
+      </Routes>
     </BrowserRouter>
   </div>
   );

@@ -345,7 +345,15 @@ module.exports = function routes(app, logger) {
 
   // POST /articles/{id}/tags/{tag_id}/like
   app.post('/articles/:id/tags/:tag_id/like', async (req, res) => {
-    pool.query("UPDATE `tagArticles` SET `num_likes` = (`num_likes` + 1) WHERE `article_id` = ? AND `id` = ?", [req.params.id, req.params.tag_id], function (err, result, fields) {
+    pool.query("UPDATE `tagArticles` SET `num_likes` = (`num_likes` + 1) WHERE `article_id` = ? AND `tag_id` = ?", [req.params.id, req.params.tag_id], function (err, result, fields) {
+      if (err) throw err;
+      res.end(JSON.stringify(result));
+    });
+  });
+
+  // Dislike a specific tag
+  app.post('/articles/:id/tags/:tag_id/dislike', async (req, res) => {
+    pool.query("UPDATE `tagArticles` SET `num_dislikes` = (`num_dislikes` + 1) WHERE `article_id` = ? AND `tag_id` = ?", [req.params.id, req.params.tag_id], function (err, result, fields) {
       if (err) throw err;
       res.end(JSON.stringify(result));
     });

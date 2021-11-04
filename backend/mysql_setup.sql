@@ -53,5 +53,6 @@ CREATE TABLE IF NOT EXISTS `tagArticles` (
   `id` INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
   `article_id` INT NOT NULL,
   `tag_id` INT NOT NULL,
-  `num_likes` INT NOT NULL DEFAULT 0
+  `num_likes` INT NOT NULL DEFAULT 0,
+  `num_dislikes` INT NOT NULL DEFAULT 0
 );

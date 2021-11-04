@@ -1,4 +1,5 @@
 import React from "react";
+import {Link} from 'react-router-dom';
 import { Card } from "../Common/Card";
 export const Homepage = (props) => {
     var articles = props.articles;

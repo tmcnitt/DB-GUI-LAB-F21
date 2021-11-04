@@ -135,7 +135,7 @@ module.exports = function routes(app, logger) {
   app.post('/articles', (req, res) => {
     const { title, url, is_opinion_piece, is_verified, summary, author_name } = req.body;
 
-    const sql = "INSERT INTO articles ( title, url, is_opinion_piece, is_verified, summary, author_name) VALUES(?,?,?,?,?)";
+    const sql = "INSERT INTO articles ( title, url, is_opinion_piece, is_verified, summary, author_name) VALUES(?,?,?,?,?,?)";
 
     pool.query(sql, [title, url, is_opinion_piece, is_verified, summary, author_name], function (err, result, fields) {
       if (err) throw err;

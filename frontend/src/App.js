@@ -4,8 +4,7 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import {Routes} from 'react-router';
 import './App.css';
 import axios from 'axios';
-import { Homepage } from "./Shared";
-import {Signup} from './Shared/Pages/Signup';
+import {Add, Homepage, Login, Profile, Signup} from './Shared/Pages';
 // React functional component
 function App() {
   // state for storage of the information on the webpage of forms and list, uses hooks
@@ -75,13 +74,9 @@ function App() {
     <Header />
     <BrowserRouter>
       <Routes>
-        <Route path="/signup" element={<Signup/>}>
-        </Route>
-        <Route path="/login">
-        </Route>
-        <Route exact path="/" element={<Homepage articles={values} />}>
-        
-        </Route>
+        <Route path="/signup" element={<Signup/>}/>
+        <Route path="/login" element={<Login/>}/>
+        <Route exact path="/" element={<Homepage articles={values} />}/>
       </Routes>
     </BrowserRouter>
   </div>

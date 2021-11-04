@@ -1,1 +1,2 @@
-export * from "../Pages/Homepage";
+export * from "./Card";
+export * from "./Header";

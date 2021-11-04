@@ -5,6 +5,7 @@ import {Routes} from 'react-router';
 import './App.css';
 import axios from 'axios';
 import { Homepage } from "./Shared";
+import {Signup} from './Shared/Pages/Signup';
 // React functional component
 function App() {
   // state for storage of the information on the webpage of forms and list, uses hooks
@@ -74,7 +75,7 @@ function App() {
     <Header />
     <BrowserRouter>
       <Routes>
-        <Route path="/signup">
+        <Route path="/signup" element={<Signup/>}>
         </Route>
         <Route path="/login">
         </Route>

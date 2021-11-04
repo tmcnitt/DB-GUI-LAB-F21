@@ -4,13 +4,12 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import {Routes} from 'react-router';
 import './App.css';
 import axios from 'axios';
-import {Add, Homepage, Login, Profile, Signup} from './Shared/Pages';
+import {Add, Article, Homepage, Login, Profile, Signup} from './Shared/Pages';
 // React functional component
 function App() {
   // state for storage of the information on the webpage of forms and list, uses hooks
   const [number, setNumber] = useState("")
   const [values, setValues] = useState([])
-
   // ENTER YOUR EC2 PUBLIC IP/URL HERE
   const ec2_url = ''
   // CHANGE THIS TO TRUE IF HOSTING ON EC2, MAKE SURE TO ADD IP/URL ABOVE
@@ -78,6 +77,7 @@ function App() {
         <Route path="/login" element={<Login/>}/>
         <Route exact path="/" element={<Homepage articles={values}/>}/>
         <Route path="/add" element={<Add/>}/>
+        <Route path="/article" element={<Article/>}/>
       </Routes>
     </BrowserRouter>
   </div>

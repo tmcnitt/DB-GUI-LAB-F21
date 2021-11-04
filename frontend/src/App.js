@@ -71,8 +71,8 @@ function App() {
 
   return (
     <div className="wrapper">
-    <Header />
     <BrowserRouter>
+    <Header />
       <Routes>
         <Route path="/signup" element={<Signup/>}/>
         <Route path="/login" element={<Login/>}/>

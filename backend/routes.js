@@ -261,11 +261,11 @@ module.exports = function routes(app, logger) {
 
   // POST /sources - Create a new source
   app.post('/sources', (req, res) => {
-    const { name, base_url, owner_name } = req.body;
+    const { name, base_url, owner_name, bias } = req.body;
 
-    const sql = "INSERT INTO sources (name, base_url, owner_name) VALUES (?,?,?)";
+    const sql = "INSERT INTO sources (name, base_url, owner_name, bias) VALUES (?,?,?,?)";
 
-    pool.query(sql, [name, base_url, owner_name], function (err, result, fields) {
+    pool.query(sql, [name, base_url, owner_name, bias], function (err, result, fields) {
       if (err) throw err;
       res.end(JSON.stringify(result));
     });
@@ -281,9 +281,9 @@ module.exports = function routes(app, logger) {
 
   // PUT /sources
   app.put('/sources', (req, res) => {
-    const { id, name, base_url, owner_name } = req.body;
+    const { id, name, base_url, owner_name, bias } = req.body;
 
-    pool.query("UPDATE sources SET name = ?, base_url = ?, owner_name = ? WHERE id = ?", [name, base_url, owner_name, id], function (err, result, fields) {
+    pool.query("UPDATE sources SET name = ?, base_url = ?, owner_name = ?, bias = ? WHERE id = ?", [name, base_url, owner_name, bias, id], function (err, result, fields) {
       if (err) throw err;
       res.end(JSON.stringify(result));
     });

@@ -5,7 +5,6 @@ export const Homepage = (props) => {
     var articles = props.articles;
     console.log("test");
     console.log(articles);
-
     return (
         <>
             <div class="w-75 m-auto">

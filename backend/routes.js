@@ -133,11 +133,11 @@ module.exports = function routes(app, logger) {
 
   // Create new article
   app.post('/articles', (req, res) => {
-    const { url, is_opinion_piece, is_verified, summary, author_name } = req.body;
+    const { title, url, is_opinion_piece, is_verified, summary, author_name } = req.body;
 
-    const sql = "INSERT INTO articles ( url, is_opinion_piece, is_verified, summary, author_name) VALUES(?,?,?,?,?)";
+    const sql = "INSERT INTO articles ( title, url, is_opinion_piece, is_verified, summary, author_name) VALUES(?,?,?,?,?)";
 
-    pool.query(sql, [url, is_opinion_piece, is_verified, summary, author_name], function (err, result, fields) {
+    pool.query(sql, [title, url, is_opinion_piece, is_verified, summary, author_name], function (err, result, fields) {
       if (err) throw err;
       res.end(JSON.stringify(result)); // Result in JSON format
     });
@@ -210,9 +210,9 @@ module.exports = function routes(app, logger) {
 
   // Update an article
   app.put('/articles', (req, res) => {
-    const { id, author_name, summary, is_verified, is_opinion_piece } = req.body;
+    const { id, title, author_name, summary, is_verified, is_opinion_piece } = req.body;
 
-    pool.query("UPDATE articles SET author_name = ?, summary = ?, is_verified = ?, is_opinion_piece = ? WHERE id = ?", [author_name, summary, is_verified, is_opinion_piece, id], function (err, result, fields) {
+    pool.query("UPDATE articles SET title = ?, author_name = ?, summary = ?, is_verified = ?, is_opinion_piece = ? WHERE id = ?", [title, author_name, summary, is_verified, is_opinion_piece, id], function (err, result, fields) {
       if (err) throw err;
       res.end(JSON.stringify(result));
     });
@@ -338,7 +338,7 @@ module.exports = function routes(app, logger) {
   // POST /articles/{id}/tags/{tag_id}/like
   app.post('/articles/:id/tags/:tag_id/like', async (req, res) => {
     pool.query("UPDATE `tagArticles` SET `num_likes` = (`num_likes` + 1) WHERE `article_id` = ? AND `id` = ?", [req.params.id, req.params.tag_id], function (err, result, fields) {
-      if(err) throw err;
+      if (err) throw err;
       res.end(JSON.stringify(result));
     });
   });

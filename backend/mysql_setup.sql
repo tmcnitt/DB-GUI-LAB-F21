@@ -18,6 +18,7 @@ alter table `tags` modify column id int not null auto_increment primary key;
 
 CREATE TABLE `articles` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) NOT NULL,
   `url` varchar(255) NOT NULL,
   `is_opinion_piece` BOOLEAN NOT NULL,
   `is_verified` BOOLEAN,

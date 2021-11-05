@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
+import { Header } from "./Shared/Common/Header";
+import { BrowserRouter, Route } from 'react-router-dom';
+import {Routes} from 'react-router';
 import './App.css';
 import axios from 'axios';
-import {Homepage} from "./Shared";
+import {Add, Article, Homepage, Login, Profile, Signup} from './Shared/Pages';
 // React functional component
-function App () {
+function App() {
   // state for storage of the information on the webpage of forms and list, uses hooks
   const [number, setNumber] = useState("")
   const [values, setValues] = useState([])
-
   // ENTER YOUR EC2 PUBLIC IP/URL HERE
   const ec2_url = ''
   // CHANGE THIS TO TRUE IF HOSTING ON EC2, MAKE SURE TO ADD IP/URL ABOVE
@@ -21,7 +23,7 @@ function App () {
   }
 
   const fetchBase = () => {
-    axios.get(`http://${url}:8000/`).then((res)=>{
+    axios.get(`http://${url}:8000/`).then((res) => {
       alert(res.data);
     })
   }
@@ -33,16 +35,16 @@ function App () {
         const values = res.data;
         console.log(values);
         setValues(values)
-    }).catch(err => {
-      console.log(err)
-    });
+      }).catch(err => {
+        console.log(err)
+      });
   }
 
   // handle input form submission to backend via POST request
   const handleSubmit = (e) => {
     e.preventDefault();
     let prod = number * number;
-    axios.post(`http://${url}:8000/multplynumber`, {product: prod}).then(res => {
+    axios.post(`http://${url}:8000/multplynumber`, { product: prod }).then(res => {
       console.log(res);
       fetchVals();
     }).catch(err => {
@@ -67,7 +69,18 @@ function App () {
   }, [])
 
   return (
-    <Homepage articles={values}/>
+    <div className="wrapper bg-secondary vh-auto min-vh-100 bg-gradient">
+    <BrowserRouter>
+    <Header />
+      <Routes>
+        <Route path="/signup" element={<Signup/>}/>
+        <Route path="/login" element={<Login/>}/>
+        <Route exact path="/" element={<Homepage articles={values}/>}/>
+        <Route path="/add" element={<Add/>}/>
+        <Route path="/article" element={<Article/>}/>
+      </Routes>
+    </BrowserRouter>
+  </div>
   );
 }
 

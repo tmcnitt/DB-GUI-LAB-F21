@@ -12,10 +12,10 @@ export const Homepage = (props) => {
                 <Link to="/add" class="btn btn-success">Add</Link>
                 </div>
                 <br></br>
-                <div class="d-flex justify-content-center flex-column">
+                <div class="d-flex m-auto w-75 flex-column">
                     {articles.map(article => {
                         return (
-                            <Link key={article.id} class="text-decoration-none text-reset" to={`/article`} state={article}> <Card title={article.title} author={article.author_name} content={article.summary} /></Link>
+                            <Link key={article.id} class="text-decoration-none text-reset mb-3" to={`/article`} state={article}> <Card title={article.title} author={article.author_name} content={article.summary} /></Link>
                         )
                     })}
                 </div>

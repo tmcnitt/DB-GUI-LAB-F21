@@ -69,7 +69,7 @@ function App() {
   }, [])
 
   return (
-    <div className="wrapper">
+    <div className="wrapper bg-secondary vh-auto min-vh-100 bg-gradient">
     <BrowserRouter>
     <Header />
       <Routes>

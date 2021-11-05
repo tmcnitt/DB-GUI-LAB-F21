@@ -15,7 +15,7 @@ export const Homepage = (props) => {
                 <div class="d-flex m-auto w-75 flex-column">
                     {articles.map(article => {
                         return (
-                            <Link key={article.id} class="text-decoration-none text-reset mb-3" to={`/article`} state={article}> <Card title={article.title} author={article.author_name} content={article.summary} /></Link>
+                            <Link key={article.id} class="text-decoration-none text-reset mb-3" to={`/article`} state={article}> <Card article={article} /></Link>
                         )
                     })}
                 </div>

@@ -23,10 +23,10 @@ function App() {
         <Route path="/login" element={<Login/>}/>
         <Route exact path="/" element={<Homepage url = {url}/>}/>
         <Route path="/add" element={<Add url={url}/>}/>
-        <Route path="/article" element={<Article/>}/>
+        <Route path="/article/:id" element={<Article url={url}/>}/>
       </Routes>
     </BrowserRouter>
-  </div>
+  </div>  
   );
 }
 

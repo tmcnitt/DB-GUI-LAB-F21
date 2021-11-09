@@ -1,7 +1,29 @@
-import React from 'react';
-import { useLocation, Link } from 'react-router-dom';
-export const Article = () => {
-    const article = useLocation().state;
+import React, {useEffect, useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
+import axios from 'axios';
+export const Article = (props) => {
+    const [article, setArticle] = useState('');
+    const { id } = useParams();
+    const url = props.url;
+    
+    const getArticles = () => {
+        axios.get(`http://${url}:8000/articles`)
+            .then(res => {
+                const articles = res.data;
+                setArticle(articles.filter(article => article.id == id)[0]);
+                console.log(articles);
+                console.log('article');
+                console.log(article);
+            })
+            .catch(err => {
+                console.log(err);
+            })
+    }
+
+    useEffect(() => {
+        getArticles();
+    }, [])
+
     return (
         <div class="w-75  mx-auto">
             <div class="d-flex justify-content-start mt-3">

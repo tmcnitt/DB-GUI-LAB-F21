@@ -11,7 +11,6 @@ export const Homepage = (props) => {
     axios.get(`http://${url}:8000/articles`).then(
       res => {
         const articles = res.data;
-        console.log(articles);
         setArticles(articles)
       }).catch(err => {
         console.log(err)

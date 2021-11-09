@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Header } from "./Common/Header";
 import { BrowserRouter, Route } from 'react-router-dom';
 import {Routes} from 'react-router';
 import './App.css';
-import axios from 'axios';
 import {Add, Article, Homepage, Login, Profile, Signup} from './Pages';
 // React functional component
 function App() {

@@ -7,13 +7,9 @@ export const Article = (props) => {
     const url = props.url;
     
     const getArticles = () => {
-        axios.get(`http://${url}:8000/articles`)
+        axios.get(`http://${url}:8000/articles/${id}`)
             .then(res => {
-                const articles = res.data;
-                setArticle(articles.filter(article => article.id == id)[0]);
-                console.log(articles);
-                console.log('article');
-                console.log(article);
+                setArticle(res.data);
             })
             .catch(err => {
                 console.log(err);

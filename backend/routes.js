@@ -143,6 +143,23 @@ module.exports = function routes(app, logger) {
     });
   });
 
+  // Get specific article
+  app.get('/articles/:id', (req, res) => {
+    const { id } = req.params;
+
+    pool.query("SELECT * FROM articles WHERE id = ?", [id], function (err, rows, fields) {
+      if (err) throw err;
+
+      const sql = "SELECT * FROM tagArticles JOIN tags ON tagArticles.tag_id = tags.id WHERE article_id = ?";
+
+      pool.query(sql, [rows[0].id], function (err, result, fields) {
+        if (err) throw err;
+        rows[0].tags = result
+        res.end(JSON.stringify(rows[0]));
+      })
+    });
+  });
+
 
   // Get all articles
   app.get('/articles', (req, res) => {
@@ -156,7 +173,6 @@ module.exports = function routes(app, logger) {
         promises.push(new Promise((resolve, reject) => {
           pool.query(sql, [rows[i].id], function (err, result, fields) {
             if (err) throw err;
-            console.log(result)
             rows[i].tags = result
             resolve()
           })

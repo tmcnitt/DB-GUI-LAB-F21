@@ -128,6 +128,15 @@ module.exports = function routes(app, logger) {
     });
   });
 
+  app.get('/tags/:id/articles', (req, res) => {
+    const { id } = req.params;
+
+    pool.query("SELECT articles.* FROM tagArticles JOIN articles on tagArticles.article_id = articles.id WHERE tagArticles.tag_id = ?", [id], function (err, result, fields) {
+      if (err) throw err;
+      res.end(JSON.stringify(result));
+    });
+  });
+
 
   //ARTICLES
 

@@ -128,6 +128,15 @@ module.exports = function routes(app, logger) {
     });
   });
 
+  app.get('/tags/:id/articles', (req, res) => {
+    const { id } = req.params;
+
+    pool.query("SELECT articles.* FROM tagArticles JOIN articles on tagArticles.article_id = articles.id WHERE tagArticles.tag_id = ?", [id], function (err, result, fields) {
+      if (err) throw err;
+      res.end(JSON.stringify(result));
+    });
+  });
+
 
   //ARTICLES
 
@@ -140,6 +149,23 @@ module.exports = function routes(app, logger) {
     pool.query(sql, [title, url, is_opinion_piece, is_verified, summary, author_name], function (err, result, fields) {
       if (err) throw err;
       res.end(JSON.stringify(result)); // Result in JSON format
+    });
+  });
+
+  // Get specific article
+  app.get('/articles/:id', (req, res) => {
+    const { id } = req.params;
+
+    pool.query("SELECT * FROM articles WHERE id = ?", [id], function (err, rows, fields) {
+      if (err) throw err;
+
+      const sql = "SELECT * FROM tagArticles JOIN tags ON tagArticles.tag_id = tags.id WHERE article_id = ?";
+
+      pool.query(sql, [rows[0].id], function (err, result, fields) {
+        if (err) throw err;
+        rows[0].tags = result
+        res.end(JSON.stringify(rows[0]));
+      })
     });
   });
 
@@ -156,7 +182,6 @@ module.exports = function routes(app, logger) {
         promises.push(new Promise((resolve, reject) => {
           pool.query(sql, [rows[i].id], function (err, result, fields) {
             if (err) throw err;
-            console.log(result)
             rows[i].tags = result
             resolve()
           })

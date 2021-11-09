@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Header } from "./Common/Header";
 import { BrowserRouter, Route } from 'react-router-dom';
 import {Routes} from 'react-router';
 import './App.css';
-import axios from 'axios';
 import {Add, Article, Homepage, Login, Profile, Signup} from './Pages';
 // React functional component
 function App() {
@@ -23,10 +22,10 @@ function App() {
         <Route path="/login" element={<Login/>}/>
         <Route exact path="/" element={<Homepage url = {url}/>}/>
         <Route path="/add" element={<Add url={url}/>}/>
-        <Route path="/article" element={<Article/>}/>
+        <Route path="/article/:id" element={<Article url={url}/>}/>
       </Routes>
     </BrowserRouter>
-  </div>
+  </div>  
   );
 }
 

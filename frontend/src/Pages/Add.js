@@ -36,10 +36,10 @@ export const Add = (props) => {
                     <input type="text" name="url" value={url} class="mb-3 ms-2" onChange={e => setUrl(e.target.value)} />
                     <br />
                     <label htmlFor="is_opinion_piece" class="ms-3">Opinion Piece:</label>
-                    <input type="checkbox" name="is_opinion_piece" value={1} class="mb-3 ms-2" onChange={e => setOpinion(e.target.value)} />
+                    <input type="checkbox" name="is_opinion_piece" value={is_opinion_piece} class="mb-3 ms-2" onChange={e => setOpinion(e.target.checked)} />
                     <br />
                     <label htmlFor="is_verified" class="ms-3">Verified:</label>
-                    <input type="checkbox" name="is_verified" value={1} class="mb-3 ms-2" onChange={e => setVerified(e.target.value)} />
+                    <input type="checkbox" name="is_verified" value={is_verified} class="mb-3 ms-2" onChange={e => setVerified(e.target.checked)} />
                     <br />
                     <label htmlFor="summary" class="ms-3">Summary:</label>
                     <textarea name="summary" value={summary} class="mb-3 ms-2" rows="5" onChange={e => setSummary(e.target.value)} />

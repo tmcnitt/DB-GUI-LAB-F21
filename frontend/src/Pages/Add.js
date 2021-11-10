@@ -44,19 +44,19 @@ export const Add = (props) => {
                     <Row>
                         <Form.Group className="mb-2 ms-3 col-md-4" controlId="title">
                             <Form.Label>Title</Form.Label>
-                            <Form.Control type="text" placeholder="Enter Title" value={title} onChange={(e) => setTitle(e.target.value)} required />
+                            <Form.Control type="text" maxLength="255" placeholder="Enter Title" value={title} onChange={(e) => setTitle(e.target.value)} required />
                             <Form.Control.Feedback type="invalid"> Please enter a title.</Form.Control.Feedback>
                         </Form.Group>
                         <Form.Group className="mb-2 ms-3 col-md-4" controlId="author_name">
                             <Form.Label>Author</Form.Label>
-                            <Form.Control type="text" placeholder="Enter Author" value={author_name} onChange={(e) => setAuthor(e.target.value)} required />
+                            <Form.Control type="text" maxLength="255" placeholder="Enter Author" value={author_name} onChange={(e) => setAuthor(e.target.value)} required />
                             <Form.Control.Feedback type="invalid"> Please enter an author.</Form.Control.Feedback>
                         </Form.Group>
                     </Row>
                     <Row>
                         <Form.Group className="mb-2 ms-3 col-md-5" controlId="url">
                             <Form.Label>URL</Form.Label>
-                            <Form.Control type="text" placeholder="Enter URL" value={url} onChange={(e) => setUrl(e.target.value)} required />
+                            <Form.Control type="text" maxLength="255" placeholder="Enter URL" value={url} onChange={(e) => setUrl(e.target.value)} required />
                             <Form.Control.Feedback type="invalid"> Please enter a URL.</Form.Control.Feedback>
                         </Form.Group>
                         <Form.Group className="mb-2 ms-3 col-md-2" controlId="is_opinion_piece">
@@ -71,7 +71,7 @@ export const Add = (props) => {
                     <Row>
                         <Form.Group className="mb-2 ms-3 col-md-10" controlId="summary">
                             <Form.Label>Summary</Form.Label>
-                            <Form.Control as="textarea" rows="3" placeholder="Enter Summary" value={summary} onChange={(e) => setSummary(e.target.value)} required />
+                            <Form.Control as="textarea" maxLength="255" rows="3" placeholder="Enter Summary" value={summary} onChange={(e) => setSummary(e.target.value)} required />
                             <Form.Control.Feedback type="invalid"> Please enter a summary.</Form.Control.Feedback>
                         </Form.Group>
                     </Row>

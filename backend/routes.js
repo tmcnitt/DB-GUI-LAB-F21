@@ -128,18 +128,44 @@ module.exports = function routes(app, logger) {
     });
   });
 
+  app.get('/tags/:id/articles', (req, res) => {
+    const { id } = req.params;
+
+    pool.query("SELECT articles.* FROM tagArticles JOIN articles on tagArticles.article_id = articles.id WHERE tagArticles.tag_id = ?", [id], function (err, result, fields) {
+      if (err) throw err;
+      res.end(JSON.stringify(result));
+    });
+  });
+
 
   //ARTICLES
 
   // Create new article
   app.post('/articles', (req, res) => {
-    const { url, is_opinion_piece, is_verified, summary, author_name } = req.body;
+    const { title, url, is_opinion_piece, is_verified, summary, author_name } = req.body;
 
-    const sql = "INSERT INTO articles ( url, is_opinion_piece, is_verified, summary, author_name) VALUES(?,?,?,?,?)";
+    const sql = "INSERT INTO articles ( title, url, is_opinion_piece, is_verified, summary, author_name) VALUES(?,?,?,?,?,?)";
 
-    pool.query(sql, [url, is_opinion_piece, is_verified, summary, author_name], function (err, result, fields) {
+    pool.query(sql, [title, url, is_opinion_piece, is_verified, summary, author_name], function (err, result, fields) {
       if (err) throw err;
       res.end(JSON.stringify(result)); // Result in JSON format
+    });
+  });
+
+  // Get specific article
+  app.get('/articles/:id', (req, res) => {
+    const { id } = req.params;
+
+    pool.query("SELECT * FROM articles WHERE id = ?", [id], function (err, rows, fields) {
+      if (err) throw err;
+
+      const sql = "SELECT * FROM tagArticles JOIN tags ON tagArticles.tag_id = tags.id WHERE article_id = ?";
+
+      pool.query(sql, [rows[0].id], function (err, result, fields) {
+        if (err) throw err;
+        rows[0].tags = result
+        res.end(JSON.stringify(rows[0]));
+      })
     });
   });
 
@@ -156,7 +182,6 @@ module.exports = function routes(app, logger) {
         promises.push(new Promise((resolve, reject) => {
           pool.query(sql, [rows[i].id], function (err, result, fields) {
             if (err) throw err;
-            console.log(result)
             rows[i].tags = result
             resolve()
           })
@@ -210,13 +235,21 @@ module.exports = function routes(app, logger) {
 
   // Update an article
   app.put('/articles', (req, res) => {
-    const { id, author_name, summary, is_verified, is_opinion_piece } = req.body;
+    const { id, title, author_name, summary, is_verified, is_opinion_piece } = req.body;
 
-    pool.query("UPDATE articles SET author_name = ?, summary = ?, is_verified = ?, is_opinion_piece = ? WHERE id = ?", [author_name, summary, is_verified, is_opinion_piece, id], function (err, result, fields) {
+    pool.query("UPDATE articles SET title = ?, author_name = ?, summary = ?, is_verified = ?, is_opinion_piece = ? WHERE id = ?", [title, author_name, summary, is_verified, is_opinion_piece, id], function (err, result, fields) {
       if (err) throw err;
       res.end(JSON.stringify(result));
     });
   });
+
+  // Get list of authors
+  app.get("/authors", (req, res) => {
+    pool.query("SELECT DISTINCT author_name FROM articles", function (err, result, fields) {
+      if (err) throw err;
+      res.end(JSON.stringify(result));
+    });
+  })
 
 
   //COMMENTS
@@ -253,11 +286,11 @@ module.exports = function routes(app, logger) {
 
   // POST /sources - Create a new source
   app.post('/sources', (req, res) => {
-    const { name, base_url, owner_name } = req.body;
+    const { name, base_url, owner_name, bias } = req.body;
 
-    const sql = "INSERT INTO sources (name, base_url, owner_name) VALUES (?,?,?)";
+    const sql = "INSERT INTO sources (name, base_url, owner_name, bias) VALUES (?,?,?,?)";
 
-    pool.query(sql, [name, base_url, owner_name], function (err, result, fields) {
+    pool.query(sql, [name, base_url, owner_name, bias], function (err, result, fields) {
       if (err) throw err;
       res.end(JSON.stringify(result));
     });
@@ -271,10 +304,18 @@ module.exports = function routes(app, logger) {
     });
   });
 
-  // *PUT /sources*
+  // PUT /sources
+  app.put('/sources', (req, res) => {
+    const { id, name, base_url, owner_name, bias } = req.body;
 
-  // *POST /sources/{id}/vote*
-  // Vote on an article
+    pool.query("UPDATE sources SET name = ?, base_url = ?, owner_name = ?, bias = ? WHERE id = ?", [name, base_url, owner_name, bias, id], function (err, result, fields) {
+      if (err) throw err;
+      res.end(JSON.stringify(result));
+    });
+  });
+
+  // POST /sources/{id}/vote
+  // Vote on a source
   app.post('/sources/:id/vote', (req, res) => {
     const { id } = req.params;
     const { direction } = req.body;
@@ -326,5 +367,22 @@ module.exports = function routes(app, logger) {
       res.end(JSON.stringify(result));
     });
   });
+
+  // POST /articles/{id}/tags/{tag_id}/like
+  app.post('/articles/:id/tags/:tag_id/like', async (req, res) => {
+    pool.query("UPDATE `tagArticles` SET `num_likes` = (`num_likes` + 1) WHERE `article_id` = ? AND `tag_id` = ?", [req.params.id, req.params.tag_id], function (err, result, fields) {
+      if (err) throw err;
+      res.end(JSON.stringify(result));
+    });
+  });
+
+  // Dislike a specific tag
+  app.post('/articles/:id/tags/:tag_id/dislike', async (req, res) => {
+    pool.query("UPDATE `tagArticles` SET `num_dislikes` = (`num_dislikes` + 1) WHERE `article_id` = ? AND `tag_id` = ?", [req.params.id, req.params.tag_id], function (err, result, fields) {
+      if (err) throw err;
+      res.end(JSON.stringify(result));
+    });
+  });
+
 
 }

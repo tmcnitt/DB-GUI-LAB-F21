@@ -251,6 +251,42 @@ module.exports = function routes(app, logger) {
     });
   })
 
+  //Get all articles for a specific author last name
+  app.get("/authors/:author_last_name/articles", (req, res) => {
+    const { author_last_name } = req.params;
+
+    pool.query("SELECT * FROM articles WHERE author_last_name = ?", [author_last_name], function (err, result, fields) {
+      if (err) throw err;
+
+      let promises = []
+      for (let i = 0; i < rows.length; i++) {
+        const sql = "SELECT * FROM tagArticles JOIN tags ON tagArticles.tag_id = tags.id WHERE article_id = ?";
+
+        promises.push(new Promise((resolve, reject) => {
+          pool.query(sql, [rows[i].id], function (err, result, fields) {
+            if (err) throw err;
+            rows[i].tags = result
+            resolve()
+          })
+        }))
+      }
+
+      Promise.all(promises).then(() => {
+        res.end(JSON.stringify(rows));
+      })
+    });
+  })
+
+  //Get all the articles for a specific author and specific tag
+  app.get("/authors/:author_last_name/articles/tags/:tag_id", (req, res) => {
+    const { author_last_name, tag_id } = req.params;
+
+    pool.query("SELECT articles.* FROM tagArticles JOIN articles on tagArticles.article_id = articles.id WHERE tagArticles.tag_id = ? AND articles.author_last_name = ?", [tag_id, author_last_name], function (err, result, fields) {
+      if (err) throw err;
+      res.end(JSON.stringify(result));
+    });
+  })
+
 
   //COMMENTS
 

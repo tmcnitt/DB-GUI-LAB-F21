@@ -245,7 +245,7 @@ module.exports = function routes(app, logger) {
 
   // Get list of authors
   app.get("/authors", (req, res) => {
-    pool.query("SELECT DISTINCT author_last_name FROM articles", function (err, result, fields) {
+    pool.query("SELECT DISTINCT author_first_name, author_last_name FROM articles", function (err, result, fields) {
       if (err) throw err;
       res.end(JSON.stringify(result));
     });

@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { User } from '../Common/User';
 import Form from 'react-bootstrap/Form';
-import Row from 'react-bootstrap/Row';
 import axios from 'axios';
 
 
@@ -46,9 +44,7 @@ export const Signup = () => {
                     </Form.Group>
                 </Form>
             </div>
-
             <button class="btn btn-success" type="submit" form="add-article-form">Submit</button>
-            <p>Need an account? <Link to="/Signup">Sign Up</Link></p>
         </div>
     );
 }

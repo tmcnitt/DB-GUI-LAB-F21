@@ -1,16 +1,15 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
-import Row from 'react-bootstrap/Row';
 import axios from 'axios';
 
 export const Login = (props) => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const [user_type, setUserType] = useState("");
+
+    const navigate = useNavigate();
 
     const handleSubmit = (e) => {
-
 
     }
 
@@ -28,14 +27,6 @@ export const Login = (props) => {
                         <Form.Label>Password</Form.Label>
                         <Form.Control type="text" placeholder="Enter Your Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
                         <Form.Control.Feedback type="invalid"> Please enter a password.</Form.Control.Feedback>
-                    </Form.Group>
-                    <Form.Group className="mb-2 ms-3 col-md-4" controlId="password">
-                        <Form.Label>User Type?</Form.Label>
-                        <Form.Select aria-label="Default select example">
-                            <option></option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                        </Form.Select>                    
                     </Form.Group>
                 </Form>
             </div>

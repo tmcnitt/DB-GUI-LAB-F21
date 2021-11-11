@@ -65,8 +65,8 @@ CREATE TABLE `comments` (
 
 CREATE TABLE IF NOT EXISTS `tagArticles` (
   `id` bigint unsigned AUTO_INCREMENT NOT NULL PRIMARY KEY,
-  `article_id` INT NOT NULL,
-  `tag_id` INT NOT NULL,
+  `article_id` bigint unsigned NOT NULL,
+  `tag_id` bigint unsigned NOT NULL,
   `num_likes` INT NOT NULL DEFAULT 0,
   `num_dislikes` INT NOT NULL DEFAULT 0
 

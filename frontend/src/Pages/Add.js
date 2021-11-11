@@ -11,7 +11,8 @@ export const Add = (props) => {
     const [is_opinion_piece, setOpinion] = useState(0);
     const [is_verified, setVerified] = useState(0);
     const [summary, setSummary] = useState("");
-    const [author_name, setAuthor] = useState("");
+    const [author_first_name, setAuthorFirstName] = useState("");
+    const [author_last_name, setAuthorLastName] = useState("");
 
     const navigate = useNavigate();
     const [validated, setValidated] = useState(false);
@@ -25,7 +26,7 @@ export const Add = (props) => {
         }
         else {
 
-            let newArticle = new Article(title, url, is_opinion_piece, is_verified, summary, author_name);
+            let newArticle = new Article(title, url, is_opinion_piece, is_verified, summary, author_first_name, author_last_name);
             axios.post(`http://${props.url}:8000/articles`, newArticle).then(res => {
                 navigate("/");
             }).catch(err => {
@@ -33,7 +34,7 @@ export const Add = (props) => {
                 alert(err.data);
             });
         }
-        
+
     }
 
     return (
@@ -42,15 +43,22 @@ export const Add = (props) => {
                 <h1 class="text-white bg-primary p-3 mb-0">Add Article</h1>
                 <Form noValidate validated={validated} onSubmit={handleSubmit} id="add-article-form" className="bg-white py-2 mt-0">
                     <Row>
-                        <Form.Group className="mb-2 ms-3 col-md-4" controlId="title">
+                        <Form.Group className="mb-2 ms-3 col-md-6" controlId="title">
                             <Form.Label>Title</Form.Label>
                             <Form.Control type="text" maxLength="255" placeholder="Enter Title" value={title} onChange={(e) => setTitle(e.target.value)} required />
                             <Form.Control.Feedback type="invalid"> Please enter a title.</Form.Control.Feedback>
                         </Form.Group>
-                        <Form.Group className="mb-2 ms-3 col-md-4" controlId="author_name">
-                            <Form.Label>Author</Form.Label>
-                            <Form.Control type="text" maxLength="255" placeholder="Enter Author" value={author_name} onChange={(e) => setAuthor(e.target.value)} required />
-                            <Form.Control.Feedback type="invalid"> Please enter an author.</Form.Control.Feedback>
+                    </Row>
+                    <Row>
+                        <Form.Group className="mb-2 ms-3 col-md-4" controlId="author_first_name">
+                            <Form.Label>Author First Name</Form.Label>
+                            <Form.Control type="text" maxLength="255" placeholder="Enter Author" value={author_first_name} onChange={(e) => setAuthorFirstName(e.target.value)} required />
+                            <Form.Control.Feedback type="invalid"> Please enter author's first name.</Form.Control.Feedback>
+                        </Form.Group>
+                        <Form.Group className="mb-2 ms-3 col-md-4" controlId="author_last_name">
+                            <Form.Label>Author Last Name</Form.Label>
+                            <Form.Control type="text" maxLength="255" placeholder="Enter Author" value={author_last_name} onChange={(e) => setAuthorLastName(e.target.value)} required />
+                            <Form.Control.Feedback type="invalid"> Please enter author's last name.</Form.Control.Feedback>
                         </Form.Group>
                     </Row>
                     <Row>

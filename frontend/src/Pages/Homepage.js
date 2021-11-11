@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { Card } from "../Common/Card";
 export const Homepage = (props) => {
   const [articles, setArticles] = useState([])
-
+  const [sources, setSources] = useState([]);
   const url = props.url;
 
   const getArticles = () => {
@@ -17,8 +17,21 @@ export const Homepage = (props) => {
       });
   }
 
+  const getSources = () => {
+    axios.get(`http://${props.url}:8000/sources`)
+        .then(res => {
+            console.log(res.data);
+            const sources = res.data;
+            setSources(sources);
+        })
+        .catch(err => {
+            console.log(err);
+        })
+}
+
   useEffect(() => {
     getArticles();
+    getSources();
   }, [])
 
   return (
@@ -32,7 +45,7 @@ export const Homepage = (props) => {
         <div class="d-flex m-auto w-75 flex-column-reverse">
           {articles.map(article => {
             return (
-              <Link key={article.id} class="text-decoration-none text-reset mb-3" to={`/article/${article.id}`}> <Card article={article} /></Link>
+              <Link key={article.id} class="text-decoration-none text-reset mb-3" to={`/article/${article.id}`}> <Card article={article} source={sources[article.source_id].name}/></Link>
             )
           })}
         </div>

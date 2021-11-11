@@ -66,7 +66,7 @@ export const AddArticle = (props) => {
                             <Form.Control type="text" maxLength="255" placeholder="Enter Title" value={title} onChange={(e) => setTitle(e.target.value)} required />
                             <Form.Control.Feedback type="invalid"> Please enter a title.</Form.Control.Feedback>
                         </Form.Group>
-                        <Form.Group className="mb-2 ms-3 col-md-4" controlId="source_id">
+                        <Form.Group className="mb-2 col-md-4" controlId="source_id">
                             <Form.Label>Source</Form.Label>
                             <Form.Control as="select" value={source_id} onChange={(e) => setSourceId(e.target.value)} required>
                                 <option value="">Select a source</option>
@@ -80,28 +80,28 @@ export const AddArticle = (props) => {
                         </Form.Group>
                     </Row>
                     <Row>
-                        <Form.Group className="mb-2 ms-3 col-md-4" controlId="author_first_name">
+                        <Form.Group className="mb-2 ms-3 col-md-3" controlId="author_first_name">
                             <Form.Label>Author First Name</Form.Label>
                             <Form.Control type="text" maxLength="255" placeholder="Enter Author" value={author_first_name} onChange={(e) => setAuthorFirstName(e.target.value)} required />
                             <Form.Control.Feedback type="invalid"> Please enter author's first name.</Form.Control.Feedback>
                         </Form.Group>
-                        <Form.Group className="mb-2 ms-3 col-md-4" controlId="author_last_name">
+                        <Form.Group className="mb-2 col-md-3" controlId="author_last_name">
                             <Form.Label>Author Last Name</Form.Label>
                             <Form.Control type="text" maxLength="255" placeholder="Enter Author" value={author_last_name} onChange={(e) => setAuthorLastName(e.target.value)} required />
                             <Form.Control.Feedback type="invalid"> Please enter author's last name.</Form.Control.Feedback>
                         </Form.Group>
                     </Row>
                     <Row>
-                        <Form.Group className="mb-2 ms-3 col-md-5" controlId="url">
+                        <Form.Group className="mb-2 ms-3 col-md-4" controlId="url">
                             <Form.Label>URL</Form.Label>
                             <Form.Control type="text" maxLength="255" placeholder="Enter URL" value={url} onChange={(e) => setUrl(e.target.value)} required />
                             <Form.Control.Feedback type="invalid"> Please enter a URL.</Form.Control.Feedback>
                         </Form.Group>
-                        <Form.Group className="mb-2 ms-3 col-md-2" controlId="is_opinion_piece">
-                            <Form.Label></Form.Label>
+                        <Form.Group className="mt-3 mb-2 col-md-1" controlId="is_opinion_piece">
+                            <Form.Label> </Form.Label>
                             <Form.Check type="checkbox" label="Opinion" checked={is_opinion_piece} onChange={(e) => setOpinion(e.target.checked)} />
                         </Form.Group>
-                        <Form.Group className="mb-2 ms-3 col-md-2" controlId="is_verified">
+                        <Form.Group className="mt-3 mb-2 col-md-1" controlId="is_verified">
                             <Form.Label></Form.Label>
                             <Form.Check type="checkbox" label="Verified" checked={is_verified} onChange={(e) => setVerified(e.target.checked)} />
                         </Form.Group>

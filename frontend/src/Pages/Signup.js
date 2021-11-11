@@ -1,32 +1,45 @@
 import React, { useState } from 'react';
+import { User } from '../Common/User';
 import { Link, useNavigate } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import axios from 'axios';
 
 
-export const Signup = () => {
+export const Signup = (props) => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const [email, setEmail] = useState("");
     const [user_type, setUserType] = useState("");
 
+    const navigate = useNavigate();
+    const [validated, setValidated] = useState(false);
+
     const handleSubmit = (e) => {
-       
+        const form = e.currentTarget;
+        e.preventDefault();
+        if (form.checkValidity() === false) {
+            e.stopPropagation();
+            setValidated(true);
+        }
+        else {
+
+            let newUser = new User(username, password, user_type);
+            axios.post(`http://${props.url}:8000/users`, newUser).then(res => {
+                navigate("/");
+            }).catch(err => {
+                console.log(err.data)
+                alert(err.data);
+            });
+        }
     }
 
     return (
         <div class="w-75 mx-auto">
             <div class="border mb-2 mt-5">
                 <h1 class="text-white bg-primary p-3 mb-0">Sign Up</h1>
-                <Form id="signup-form" onSubmit={handleSubmit} className="bg-white py-2 mt-0">
+                <Form noValidate validated={validated} onSubmit={handleSubmit} id="signup-form"  className="bg-white py-2 mt-0">
                     <Form.Group className="mb-2 ms-3 col-md-4" controlId="username">
                         <Form.Label>Username</Form.Label>
                         <Form.Control type="text" placeholder="Enter a Username" value={username} onChange={(e) => setUsername(e.target.value)} required />
-                        <Form.Control.Feedback type="invalid"> Please enter a username.</Form.Control.Feedback>
-                    </Form.Group>
-                    <Form.Group className="mb-2 ms-3 col-md-4" controlId="email">
-                        <Form.Label>Email</Form.Label>
-                        <Form.Control type="text" placeholder="Enter Your Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
                         <Form.Control.Feedback type="invalid"> Please enter a username.</Form.Control.Feedback>
                     </Form.Group>
                     <Form.Group className="mb-2 ms-3 col-md-4" controlId="password">
@@ -44,7 +57,7 @@ export const Signup = () => {
                     </Form.Group>
                 </Form>
             </div>
-            <button class="btn btn-success" type="submit" form="add-article-form">Submit</button>
+            <button class="btn btn-success" type="submit" form="signup-form">Submit</button>
         </div>
     );
 }

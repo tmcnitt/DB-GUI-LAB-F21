@@ -340,6 +340,17 @@ module.exports = function routes(app, logger) {
     });
   });
 
+    // GET /sources/:id - Get source by id
+    app.get('/sources/:id', (req, res) => {
+      const { id } = req.params;
+
+      pool.query("SELECT FROM sources WHERE id = ?", [id], function (err, result, fields) {
+        if (err) throw err;
+        res.end(JSON.stringify(result));
+      });
+    });
+  
+
   // PUT /sources
   app.put('/sources', (req, res) => {
     const { id, name, base_url, owner_name, bias } = req.body;

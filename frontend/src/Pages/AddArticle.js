@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import axios from 'axios';
-export const Add = (props) => {
+export const AddArticle = (props) => {
 
     const [title, setTitle] = useState("");
     const [url, setUrl] = useState("");

@@ -142,11 +142,11 @@ module.exports = function routes(app, logger) {
 
   // Create new article
   app.post('/articles', (req, res) => {
-    const { title, url, is_opinion_piece, is_verified, summary, author_first_name, author_last_name } = req.body;
+    const { title, url, is_opinion_piece, is_verified, summary, author_first_name, author_last_name, source_id } = req.body;
 
-    const sql = "INSERT INTO articles ( title, url, is_opinion_piece, is_verified, summary, author_first_name, author_last_name) VALUES (?,?,?,?,?,?,?)";
+    const sql = "INSERT INTO articles ( title, url, is_opinion_piece, is_verified, summary, author_first_name, author_last_name, source_id) VALUES (?,?,?,?,?,?,?,?)";
 
-    pool.query(sql, [title, url, is_opinion_piece, is_verified, summary, author_first_name, author_last_name], function (err, result, fields) {
+    pool.query(sql, [title, url, is_opinion_piece, is_verified, summary, author_first_name, author_last_name, source_id], function (err, result, fields) {
       if (err) throw err;
       res.end(JSON.stringify(result)); // Result in JSON format
     });
@@ -255,7 +255,7 @@ module.exports = function routes(app, logger) {
   app.get("/authors/:author_last_name/articles", (req, res) => {
     const { author_last_name } = req.params;
 
-    pool.query("SELECT * FROM articles WHERE author_last_name = ?", [author_last_name], function (err, result, fields) {
+    pool.query("SELECT * FROM articles WHERE author_last_name = ?", [author_last_name], function (err, rows, fields) {
       if (err) throw err;
 
       let promises = []

@@ -142,11 +142,11 @@ module.exports = function routes(app, logger) {
 
   // Create new article
   app.post('/articles', (req, res) => {
-    const { title, url, is_opinion_piece, is_verified, summary, author_name } = req.body;
+    const { title, url, is_opinion_piece, is_verified, summary, author_first_name, author_last_name } = req.body;
 
-    const sql = "INSERT INTO articles ( title, url, is_opinion_piece, is_verified, summary, author_name) VALUES(?,?,?,?,?,?)";
+    const sql = "INSERT INTO articles ( title, url, is_opinion_piece, is_verified, summary, author_first_name, author_last_name) VALUES (?,?,?,?,?,?,?)";
 
-    pool.query(sql, [title, url, is_opinion_piece, is_verified, summary, author_name], function (err, result, fields) {
+    pool.query(sql, [title, url, is_opinion_piece, is_verified, summary, author_first_name, author_last_name], function (err, result, fields) {
       if (err) throw err;
       res.end(JSON.stringify(result)); // Result in JSON format
     });
@@ -235,9 +235,9 @@ module.exports = function routes(app, logger) {
 
   // Update an article
   app.put('/articles', (req, res) => {
-    const { id, title, author_name, summary, is_verified, is_opinion_piece } = req.body;
+    const { id, title, author_first_name, author_last_name, summary, is_verified, is_opinion_piece } = req.body;
 
-    pool.query("UPDATE articles SET title = ?, author_name = ?, summary = ?, is_verified = ?, is_opinion_piece = ? WHERE id = ?", [title, author_name, summary, is_verified, is_opinion_piece, id], function (err, result, fields) {
+    pool.query("UPDATE articles SET title = ?, author_first_name = ?, author_last_name = ?, summary = ?, is_verified = ?, is_opinion_piece = ? WHERE id = ?", [title, author_first_name, author_last_name, summary, is_verified, is_opinion_piece, id], function (err, result, fields) {
       if (err) throw err;
       res.end(JSON.stringify(result));
     });
@@ -245,7 +245,7 @@ module.exports = function routes(app, logger) {
 
   // Get list of authors
   app.get("/authors", (req, res) => {
-    pool.query("SELECT DISTINCT author_name FROM articles", function (err, result, fields) {
+    pool.query("SELECT DISTINCT author_last_name FROM articles", function (err, result, fields) {
       if (err) throw err;
       res.end(JSON.stringify(result));
     });

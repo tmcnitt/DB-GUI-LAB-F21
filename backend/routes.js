@@ -344,7 +344,7 @@ module.exports = function routes(app, logger) {
     app.get('/sources/:id', (req, res) => {
       const { id } = req.params;
 
-      pool.query("SELECT FROM sources WHERE id = ?", [id], function (err, result, fields) {
+      pool.query("SELECT * FROM sources WHERE id = ?", [id], function (err, result, fields) {
         if (err) throw err;
         res.end(JSON.stringify(result));
       });

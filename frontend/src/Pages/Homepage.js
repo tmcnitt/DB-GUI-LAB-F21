@@ -5,13 +5,16 @@ import { Card } from "../Common/Card";
 export const Homepage = (props) => {
   const [articles, setArticles] = useState([])
   const [sources, setSources] = useState([]);
+  const [isLoading, setLoading] = useState(true);
+  const [isLoading2, setLoading2] = useState(true);
   const url = props.url;
 
   const getArticles = () => {
     axios.get(`http://${url}:8000/articles`).then(
       res => {
         const articles = res.data;
-        setArticles(articles)
+        setArticles(articles);
+        setLoading(false);
       }).catch(err => {
         console.log(err)
       });
@@ -23,6 +26,7 @@ export const Homepage = (props) => {
             console.log(res.data);
             const sources = res.data;
             setSources(sources);
+            setLoading2(false);
         })
         .catch(err => {
             console.log(err);
@@ -33,6 +37,11 @@ export const Homepage = (props) => {
     getArticles();
     getSources();
   }, [])
+
+
+  if (isLoading || isLoading2) {
+    return <div></div>
+  }
 
   return (
     <>
@@ -45,7 +54,7 @@ export const Homepage = (props) => {
         <div class="d-flex m-auto w-75 flex-column-reverse">
           {articles.map(article => {
             return (
-              <Link key={article.id} class="text-decoration-none text-reset mb-3" to={`/article/${article.id}`}> <Card article={article} source={sources[article.source_id].name}/></Link>
+              <Link key={article.id} class="text-decoration-none text-reset mb-3" to={`/article/${article.id}`}> <Card article={article} source={sources[article.source_id - 1].name}/></Link>
             )
           })}
         </div>

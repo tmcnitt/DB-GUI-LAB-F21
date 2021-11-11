@@ -4,13 +4,17 @@ import axios from 'axios';
 export const Article = (props) => {
     const [article, setArticle] = useState('');
     const [source, setSource] = useState('');
+    const [isLoading, setLoading] = useState(true);
+    const [isLoading2, setLoading2] = useState(true);
     const { id } = useParams();
     const url = props.url;
     
     const getArticle = () => {
         axios.get(`http://${url}:8000/articles/${id}`)
             .then(res => {
+                console.log(res.data);
                 setArticle(res.data);
+                setLoading(false);
             })
             .catch(err => {
                 console.log(err);
@@ -22,7 +26,8 @@ export const Article = (props) => {
             .then(res => {
                 console.log(res.data);
                 const source = res.data;
-                setSource(source);
+                setSource(source[0].name);
+                setLoading2(false);
             })
             .catch(err => {
                 console.log(err);
@@ -31,8 +36,18 @@ export const Article = (props) => {
 
     useEffect(() => {
         getArticle();
-        getSource(article.source_id);
     }, [])
+
+    if (isLoading == false) {
+        getSource(article.source_id);
+    }
+
+    if (isLoading || isLoading2) {
+        return (<>
+        <h1></h1>
+        </>);
+    }
+
 
     return (
         <div class="w-75  mx-auto">

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Article } from '../Common/Article';
 import { Link, useNavigate } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
@@ -13,9 +13,23 @@ export const AddArticle = (props) => {
     const [summary, setSummary] = useState("");
     const [author_first_name, setAuthorFirstName] = useState("");
     const [author_last_name, setAuthorLastName] = useState("");
+    const [source_id, setSourceId] = useState("");
 
     const navigate = useNavigate();
     const [validated, setValidated] = useState(false);
+    const [sources, setSources] = useState([]);
+
+    const getSources = () => {
+        axios.get(`http://${props.url}:8000/sources`)
+            .then(res => {
+                console.log(res.data);
+                const sources = res.data;
+                setSources(sources);
+            })
+            .catch(err => {
+                console.log(err);
+            })
+    }
 
     const handleSubmit = (e) => {
         const form = e.currentTarget;
@@ -26,7 +40,7 @@ export const AddArticle = (props) => {
         }
         else {
 
-            let newArticle = new Article(title, url, is_opinion_piece, is_verified, summary, author_first_name, author_last_name);
+            let newArticle = new Article(title, url, is_opinion_piece, is_verified, summary, author_first_name, author_last_name, source_id);
             axios.post(`http://${props.url}:8000/articles`, newArticle).then(res => {
                 navigate("/");
             }).catch(err => {
@@ -36,6 +50,10 @@ export const AddArticle = (props) => {
         }
 
     }
+
+    useEffect(() => {
+        getSources();
+    }, []);
 
     return (
         <div class="w-75 mx-auto">
@@ -47,6 +65,18 @@ export const AddArticle = (props) => {
                             <Form.Label>Title</Form.Label>
                             <Form.Control type="text" maxLength="255" placeholder="Enter Title" value={title} onChange={(e) => setTitle(e.target.value)} required />
                             <Form.Control.Feedback type="invalid"> Please enter a title.</Form.Control.Feedback>
+                        </Form.Group>
+                        <Form.Group className="mb-2 ms-3 col-md-4" controlId="source_id">
+                            <Form.Label>Source</Form.Label>
+                            <Form.Control as="select" value={source_id} onChange={(e) => setSourceId(e.target.value)} required>
+                                <option value="">Select a source</option>
+                                {sources.map(source => {
+                                    return (
+                                        <option value={source.id}>{source.name}</option>
+                                    )
+                                })}
+                            </Form.Control>
+                            <Form.Control.Feedback type="invalid"> Please select a source.</Form.Control.Feedback>
                         </Form.Group>
                     </Row>
                     <Row>

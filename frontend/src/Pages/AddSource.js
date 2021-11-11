@@ -1,18 +1,15 @@
 import React, { useState } from 'react';
-import { Article } from '../Common/Article';
+import { Source } from '../Common/Source';
 import { Link, useNavigate } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import axios from 'axios';
 
 export const AddSource = (props) => {
-    const [title, setTitle] = useState("");
-    const [url, setUrl] = useState("");
-    const [is_opinion_piece, setOpinion] = useState(0);
-    const [is_verified, setVerified] = useState(0);
-    const [summary, setSummary] = useState("");
-    const [author_first_name, setAuthorFirstName] = useState("");
-    const [author_last_name, setAuthorLastName] = useState("");
+    const [name, setName] = useState("");
+    const [base_url, setBaseUrl] = useState("");
+    const [owner_name, setOwnerName] = useState("");
+    const [bias, setBias] = useState("");
 
     const navigate = useNavigate();
     const [validated, setValidated] = useState(false);
@@ -25,14 +22,13 @@ export const AddSource = (props) => {
             setValidated(true);
         }
         else {
-
-            // let newArticle = new Article(title, url, is_opinion_piece, is_verified, summary, author_first_name, author_last_name);
-            // axios.post(`http://${props.url}:8000/articles`, newArticle).then(res => {
-            //     navigate("/");
-            // }).catch(err => {
-            //     console.log(err.data)
-            //     alert(err.data);
-            // });
+            let newSource = new Source(name, base_url, owner_name, bias);
+            axios.post(`http://${props.url}:8000/sources`, newSource).then(res => {
+                navigate('/');
+            }).catch(err => {
+                console.log(err.data);
+                alert(err.data);
+            });
         }
 
     }
@@ -40,47 +36,30 @@ export const AddSource = (props) => {
     return (
         <div class="w-75 mx-auto">
             <div class="border mb-2 mt-5">
-                <h1 class="text-white bg-primary p-3 mb-0">Add Article</h1>
-                <Form noValidate validated={validated} onSubmit={handleSubmit} id="add-article-form" className="bg-white py-2 mt-0">
+                <h1 class="text-white bg-primary p-3 mb-0">Add Source</h1>
+                <Form noValidate validated={validated} onSubmit={handleSubmit} id="add-source-form" className="bg-white py-2 mt-0">
                     <Row>
-                        <Form.Group className="mb-2 ms-3 col-md-6" controlId="title">
-                            <Form.Label>Title</Form.Label>
-                            <Form.Control type="text" maxLength="255" placeholder="Enter Title" value={title} onChange={(e) => setTitle(e.target.value)} required />
-                            <Form.Control.Feedback type="invalid"> Please enter a title.</Form.Control.Feedback>
+                        <Form.Group className="mb-2 ms-3 col-md-4" controlId="name">
+                            <Form.Label>Name</Form.Label>
+                            <Form.Control type="text" maxLength="255" placeholder="Enter Name" value={name} onChange={(e) => setName(e.target.value)} required />
+                            <Form.Control.Feedback type="invalid"> Please enter a name.</Form.Control.Feedback>
+                        </Form.Group>
+                        <Form.Group className="mb-2 ms-3 col-md-4" controlId="base_url">
+                            <Form.Label>Base URL</Form.Label>
+                            <Form.Control type="text" maxLength="255" placeholder="Enter Base URL" value={base_url} onChange={(e) => setBaseUrl(e.target.value)} required />
+                            <Form.Control.Feedback type="invalid"> Please enter a base URL.</Form.Control.Feedback>
                         </Form.Group>
                     </Row>
                     <Row>
-                        <Form.Group className="mb-2 ms-3 col-md-4" controlId="author_first_name">
-                            <Form.Label>Author First Name</Form.Label>
-                            <Form.Control type="text" maxLength="255" placeholder="Enter Author" value={author_first_name} onChange={(e) => setAuthorFirstName(e.target.value)} required />
-                            <Form.Control.Feedback type="invalid"> Please enter author's first name.</Form.Control.Feedback>
+                        <Form.Group className="mb-2 ms-3 col-md-4" controlId="owner_name">
+                            <Form.Label>Owner Name</Form.Label>
+                            <Form.Control type="text" maxLength="255" placeholder="Enter Owner Name" value={owner_name} onChange={(e) => setOwnerName(e.target.value)} required />
+                            <Form.Control.Feedback type="invalid"> Please enter an owner name.</Form.Control.Feedback>
                         </Form.Group>
-                        <Form.Group className="mb-2 ms-3 col-md-4" controlId="author_last_name">
-                            <Form.Label>Author Last Name</Form.Label>
-                            <Form.Control type="text" maxLength="255" placeholder="Enter Author" value={author_last_name} onChange={(e) => setAuthorLastName(e.target.value)} required />
-                            <Form.Control.Feedback type="invalid"> Please enter author's last name.</Form.Control.Feedback>
-                        </Form.Group>
-                    </Row>
-                    <Row>
-                        <Form.Group className="mb-2 ms-3 col-md-5" controlId="url">
-                            <Form.Label>URL</Form.Label>
-                            <Form.Control type="text" maxLength="255" placeholder="Enter URL" value={url} onChange={(e) => setUrl(e.target.value)} required />
-                            <Form.Control.Feedback type="invalid"> Please enter a URL.</Form.Control.Feedback>
-                        </Form.Group>
-                        <Form.Group className="mb-2 ms-3 col-md-2" controlId="is_opinion_piece">
-                            <Form.Label></Form.Label>
-                            <Form.Check type="checkbox" label="Opinion" checked={is_opinion_piece} onChange={(e) => setOpinion(e.target.checked)} />
-                        </Form.Group>
-                        <Form.Group className="mb-2 ms-3 col-md-2" controlId="is_verified">
-                            <Form.Label></Form.Label>
-                            <Form.Check type="checkbox" label="Verified" checked={is_verified} onChange={(e) => setVerified(e.target.checked)} />
-                        </Form.Group>
-                    </Row>
-                    <Row>
-                        <Form.Group className="mb-2 ms-3 col-md-10" controlId="summary">
-                            <Form.Label>Summary</Form.Label>
-                            <Form.Control as="textarea" maxLength="255" rows="3" placeholder="Enter Summary" value={summary} onChange={(e) => setSummary(e.target.value)} required />
-                            <Form.Control.Feedback type="invalid"> Please enter a summary.</Form.Control.Feedback>
+                        <Form.Group className="mb-2 ms-3 col-md-4" controlId="bias">
+                            <Form.Label>Bias</Form.Label>
+                            <Form.Control type="text" maxLength="255" placeholder="Enter Bias" value={bias} onChange={(e) => setBias(e.target.value)} required />
+                            <Form.Control.Feedback type="invalid"> Please enter a bias.</Form.Control.Feedback>
                         </Form.Group>
                     </Row>
                 </Form>
@@ -88,7 +67,7 @@ export const AddSource = (props) => {
 
             <Link to="/" class="btn btn-danger me-3">Cancel</Link>
 
-            <button class="btn btn-success" type="submit" form="add-article-form">Submit</button>
+            <button class="btn btn-success" type="submit" form="add-source-form">Submit</button>
 
         </div>
     );

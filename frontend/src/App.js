@@ -33,7 +33,7 @@ function App() {
           <Route path="/addarticle" element={<AddArticle url={url} token={token} />} />
           <Route path="/article/:id/edit" element={<EditArticle url={url} token={token} />} />
           <Route path="/addsource" element={<AddSource url={url} token={token} />} />
-          <Route path="/article/:id" element={<Article url={url} />} />
+          <Route path="/article/:id" element={<Article url={url} token={token} />} />
         </Routes>
       </BrowserRouter>
     </div>

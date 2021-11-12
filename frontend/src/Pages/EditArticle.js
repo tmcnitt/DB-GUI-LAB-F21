@@ -17,22 +17,63 @@ export const EditArticle = (props) => {
     const [author_last_name, setAuthorLastName] = useState("");
     const [source_id, setSourceId] = useState("");
 
+    const [isLoading, setLoading] = useState(true);
+    const [isLoading2, setLoading2] = useState(true);
+
     const navigate = useNavigate();
     const [validated, setValidated] = useState(false);
     const [sources, setSources] = useState([]);
 
-    const getSources = () => {
-        axios.get(`http://${props.url}:8000/sources`)
+    const getArticle = () => {
+        axios.get(`http://${props.url}:8000/articles/${id}`)
             .then(res => {
-                const sources = res.data;
-                setSources(sources);
+                //console.log(res.data);
+                setTitle(res.data.title);
+                setUrl(res.data.url);
+                setOpinion(res.data.is_opinion_piece);
+                setVerified(res.data.is_verified);
+                setSummary(res.data.summary);
+                setAuthorFirstName(res.data.author_first_name);
+                setAuthorLastName(res.data.author_last_name);
+                setSourceId(res.data.source_id);
+                setLoading2(false);
             })
             .catch(err => {
                 console.log(err);
             })
     }
 
-    const handleSubmit = (event) => {
+    const getSources = () => {
+        axios.get(`http://${props.url}:8000/sources`)
+            .then(res => {
+                const sources = res.data;
+                setSources(sources);
+                setLoading(false);
+                getArticle(id);
+            })
+            .catch(err => {
+                console.log(err);
+            })
+    }
+
+    const handleSubmit = (e) => {
+        const form = e.currentTarget;
+        e.preventDefault();
+        if (form.checkValidity() === false) {
+            e.stopPropagation();
+            setValidated(true);
+        }
+        else {
+
+            let newArticle = new Article(title, url, is_opinion_piece, is_verified, summary, author_first_name, author_last_name, source_id);
+            newArticle.id = id;
+            axios.put(`http://${props.url}:8000/articles`, newArticle).then(res => {
+                navigate("/");
+            }).catch(err => {
+                console.log(err.data)
+                alert(err.data);
+            });
+        }
         console.log("submit");
     }
 
@@ -44,17 +85,23 @@ export const EditArticle = (props) => {
         return (
             <div class="w-75 mx-auto">
                 <div class="border mb-2 mt-5">
-                    <h1 class="text-white bg-primary p-3 mb-0">You must be logged in to add an article</h1>
+                    <h1 class="text-white bg-primary p-3 mb-0">You must be logged in to edit an article</h1>
                 </div>
             </div>
         )
     }
 
+    if (isLoading || isLoading2) {
+        return (<>
+        <h1></h1>
+        </>);
+    }
+
     return (
         <div class="w-75 mx-auto">
             <div class="border mb-2 mt-5">
-                <h1 class="text-white bg-primary p-3 mb-0">Add Article</h1>
-                <Form noValidate validated={validated} onSubmit={handleSubmit} id="add-article-form" className="bg-white py-2 mt-0">
+                <h1 class="text-white bg-primary p-3 mb-0">Edit Article</h1>
+                <Form noValidate validated={validated} onSubmit={handleSubmit} id="edit-article-form" className="bg-white py-2 mt-0">
                     <Row>
                         <Form.Group className="mb-2 ms-3 col-md-6" controlId="title">
                             <Form.Label>Title</Form.Label>
@@ -112,7 +159,7 @@ export const EditArticle = (props) => {
 
             <Link to="/" class="btn btn-danger me-3">Cancel</Link>
 
-            <button class="btn btn-success" type="submit" form="add-article-form">Submit</button>
+            <button class="btn btn-success" type="submit" form="edit-article-form">Submit</button>
 
         </div>
     )

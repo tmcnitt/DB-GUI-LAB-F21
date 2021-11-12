@@ -53,7 +53,7 @@ export const Homepage = (props) => {
         <div class="d-flex flex-column-reverse">
           {articles.map(article => {
             return (
-              <Card key={article.id} article={article} source={sources[article.source_id - 1].name} getArticles={getArticles} url={url}/>
+              <Card key={article.id} article={article} source={sources[article.source_id - 1].name} getArticles={getArticles} url={url} token={props.token}/>
             )
           })}
         </div>

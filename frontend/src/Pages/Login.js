@@ -23,8 +23,8 @@ export const Login = (props) => {
             axios.post(`http://${props.url}:8000/login`, newUser).then(res => {
                 props.setToken(res.data.data.jwt);
                 localStorage.setItem('token', res.data.data.jwt);
-                console.log(res.data.data.jwt);
                 navigate("/");
+                console.log(res.data.data)
                 console.log('logged in');
             }).catch(err => {
                 console.log(err)

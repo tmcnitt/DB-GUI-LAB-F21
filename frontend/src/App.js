@@ -3,7 +3,7 @@ import { Header } from "./Common/Header";
 import { BrowserRouter, Route } from 'react-router-dom';
 import { Routes } from 'react-router';
 import './App.css';
-import { AddArticle, AddSource, Article, Homepage, Login, Profile, Signup } from './Pages';
+import { AddArticle, AddSource, Article, EditArticle, Homepage, Login, Profile, Signup } from './Pages';
 // React functional component
 function App() {
   // ENTER YOUR EC2 PUBLIC IP/URL HERE
@@ -31,8 +31,9 @@ function App() {
           <Route path="/login" element={<Login url={url} setToken={setToken}/>} />
           <Route exact path="/" element={<Homepage url={url} token={token} />} />
           <Route path="/addarticle" element={<AddArticle url={url} token={token} />} />
+          <Route path="/article/:id/edit" element={<EditArticle url={url} token={token} />} />
           <Route path="/addsource" element={<AddSource url={url} token={token} />} />
-          <Route path="/article/:id" element={<Article url={url} />} />
+          <Route path="/article/:id" element={<Article url={url} token={token} />} />
         </Routes>
       </BrowserRouter>
     </div>

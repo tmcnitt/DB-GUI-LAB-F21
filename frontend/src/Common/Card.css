@@ -1,16 +1,5 @@
-#information-card {
-    width: 50%;
-    border: 1px solid black;
-}
-
-#information-card-title {
-    
-}
-
-#information-card-author {
-    
-}
-
-#information-card-content {
-    
+.menuDots:after {
+    content: '\2807';
+    font-size: 3rem;
+    color: #fff;
 }

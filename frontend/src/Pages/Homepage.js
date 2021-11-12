@@ -23,7 +23,6 @@ export const Homepage = (props) => {
   const getSources = () => {
     axios.get(`http://${props.url}:8000/sources`)
         .then(res => {
-            console.log(res.data);
             const sources = res.data;
             setSources(sources);
             setLoading2(false);
@@ -51,10 +50,10 @@ export const Homepage = (props) => {
           {props.token && <Link to ="/addsource" class="btn btn-success ms-3">Add Source</Link>}
         </div>
         <br></br>
-        <div class="d-flex m-auto w-75 flex-column-reverse">
+        <div class="d-flex flex-column-reverse">
           {articles.map(article => {
             return (
-              <Link key={article.id} class="text-decoration-none text-reset mb-3" to={`/article/${article.id}`}> <Card article={article} source={sources[article.source_id - 1].name}/></Link>
+              <Card key={article.id} article={article} source={sources[article.source_id - 1].name} getArticles={getArticles} url={url}/>
             )
           })}
         </div>

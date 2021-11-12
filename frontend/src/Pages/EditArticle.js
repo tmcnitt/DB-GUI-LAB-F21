@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Article } from '../Common/Article';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import axios from 'axios';
-export const AddArticle = (props) => {
 
+export const EditArticle = (props) => {
+
+    const { id } = useParams();
     const [title, setTitle] = useState("");
     const [url, setUrl] = useState("");
     const [is_opinion_piece, setOpinion] = useState(0);
@@ -30,24 +32,8 @@ export const AddArticle = (props) => {
             })
     }
 
-    const handleSubmit = (e) => {
-        const form = e.currentTarget;
-        e.preventDefault();
-        if (form.checkValidity() === false) {
-            e.stopPropagation();
-            setValidated(true);
-        }
-        else {
-
-            let newArticle = new Article(title, url, is_opinion_piece, is_verified, summary, author_first_name, author_last_name, source_id);
-            axios.post(`http://${props.url}:8000/articles`, newArticle).then(res => {
-                navigate("/");
-            }).catch(err => {
-                console.log(err.data)
-                alert(err.data);
-            });
-        }
-
+    const handleSubmit = (event) => {
+        console.log("submit");
     }
 
     useEffect(() => {
@@ -129,5 +115,5 @@ export const AddArticle = (props) => {
             <button class="btn btn-success" type="submit" form="add-article-form">Submit</button>
 
         </div>
-    );
+    )
 }

@@ -47,8 +47,8 @@ export const Homepage = (props) => {
     <>
       <div class="w-75 m-auto">
         <div class="d-flex justify-content-end mt-3">
-          <Link to="/addarticle" class="btn btn-success">Add Article</Link>
-          <Link to ="/addsource" class="btn btn-success ms-3">Add Source</Link>
+          {props.token && <Link to="/addarticle" class="btn btn-success">Add Article</Link>}
+          {props.token && <Link to ="/addsource" class="btn btn-success ms-3">Add Source</Link>}
         </div>
         <br></br>
         <div class="d-flex m-auto w-75 flex-column-reverse">

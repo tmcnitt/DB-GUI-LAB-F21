@@ -33,6 +33,17 @@ export const AddSource = (props) => {
 
     }
 
+
+    if (!props.token) {
+        return (
+            <div class="w-75 mx-auto">
+                <div class="border mb-2 mt-5">
+                    <h1 class="text-white bg-primary p-3 mb-0">You must be logged in to add a source</h1>
+                </div>
+            </div>
+        )
+    }
+
     return (
         <div class="w-75 mx-auto">
             <div class="border mb-2 mt-5">

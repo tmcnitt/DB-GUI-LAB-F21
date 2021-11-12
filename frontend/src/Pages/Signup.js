@@ -22,12 +22,16 @@ export const Signup = (props) => {
         }
         else {
 
-            let newUser = new User(username, password, user_type);
+            let newUser = new User(username, password);
+            newUser["user_type"] = user_type;
             axios.post(`http://${props.url}:8000/users`, newUser).then(res => {
+                props.setToken(res.data.data.jwt);
+                localStorage.setItem("token", res.data.data.jwt);
                 navigate("/");
+                console.log(res.data.data.jwt);
             }).catch(err => {
-                console.log(err.data)
-                alert(err.data);
+                console.log(err.data.data)
+                alert(err.data.data);
             });
         }
     }
@@ -44,7 +48,7 @@ export const Signup = (props) => {
                     </Form.Group>
                     <Form.Group className="mb-2 ms-3 col-md-4" controlId="password">
                         <Form.Label>Password</Form.Label>
-                        <Form.Control type="text" placeholder="Enter Your Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+                        <Form.Control type="password" placeholder="Enter Your Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
                         <Form.Control.Feedback type="invalid"> Please enter a password.</Form.Control.Feedback>
                     </Form.Group>
                     <Form.Group className="mb-2 ms-3 col-md-4" controlId="user_type">
@@ -57,7 +61,8 @@ export const Signup = (props) => {
                     </Form.Group>
                 </Form>
             </div>
-            <button class="btn btn-success" type="submit" form="signup-form">Submit</button>
+            <Link to="/" class="btn btn-danger me-3">Cancel</Link>
+            <button class="btn btn-success" id="signupButton" type="submit" form="signup-form">Submit</button>
         </div>
     );
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Header } from "./Common/Header";
 import { BrowserRouter, Route } from 'react-router-dom';
 import { Routes } from 'react-router';
@@ -13,16 +13,25 @@ function App() {
   // USE localhost OR ec2_url ACCORDING TO ENVIRONMENT
   const url = ec2 ? ec2_url : 'localhost'
 
+  const [token, setToken] = useState();
+  const [updateToken, setUpdateToken] = useState();
+  
+  useEffect(() => {
+    setToken(localStorage.getItem('token'));
+    console.log('in app useeffect');
+    setUpdateToken(token);
+  }, [token]);
+
   return (
     <div className="wrapper bg-secondary vh-auto min-vh-100 bg-gradient">
       <BrowserRouter>
-        <Header />
+        <Header token={updateToken} setToken={setToken}/>
         <Routes>
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/login" element={<Login />} />
-          <Route exact path="/" element={<Homepage url={url} />} />
-          <Route path="/addarticle" element={<AddArticle url={url} />} />
-          <Route path="/addsource" element={<AddSource url={url} />} />
+          <Route path="/signup" element={<Signup url={url} setToken={setToken} />} />
+          <Route path="/login" element={<Login url={url} setToken={setToken}/>} />
+          <Route exact path="/" element={<Homepage url={url} token={token} />} />
+          <Route path="/addarticle" element={<AddArticle url={url} token={token} />} />
+          <Route path="/addsource" element={<AddSource url={url} token={token} />} />
           <Route path="/article/:id" element={<Article url={url} />} />
         </Routes>
       </BrowserRouter>

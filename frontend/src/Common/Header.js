@@ -1,4 +1,4 @@
-import React, { useEffect, useState, forceUpdate } from "react";
+import React, { useEffect, useState } from "react";
 import './Header.css';
 import { Link, useNavigate } from 'react-router-dom';
 export const Header = (props) => {
@@ -14,7 +14,6 @@ export const Header = (props) => {
     }
 
     useEffect(() => {
-        console.log('in useeffect in header component');
         setIsLoggedIn(props.token);
     }, [props.token]);
 

@@ -3,8 +3,7 @@ import { Article } from '../Common/Article';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
-import axios from 'axios';
-
+import { ApiMain } from '../Common/ApiMain';
 export const EditArticle = (props) => {
 
     const { id } = useParams();
@@ -24,37 +23,7 @@ export const EditArticle = (props) => {
     const [validated, setValidated] = useState(false);
     const [sources, setSources] = useState([]);
 
-    const getArticle = () => {
-        axios.get(`http://${props.url}:8000/articles/${id}`)
-            .then(res => {
-                //console.log(res.data);
-                setTitle(res.data.title);
-                setUrl(res.data.url);
-                setOpinion(res.data.is_opinion_piece);
-                setVerified(res.data.is_verified);
-                setSummary(res.data.summary);
-                setAuthorFirstName(res.data.author_first_name);
-                setAuthorLastName(res.data.author_last_name);
-                setSourceId(res.data.source_id);
-                setLoading2(false);
-            })
-            .catch(err => {
-                console.log(err);
-            })
-    }
-
-    const getSources = () => {
-        axios.get(`http://${props.url}:8000/sources`)
-            .then(res => {
-                const sources = res.data;
-                setSources(sources);
-                setLoading(false);
-                getArticle(id);
-            })
-            .catch(err => {
-                console.log(err);
-            })
-    }
+    const api = new ApiMain();
 
     const handleSubmit = (e) => {
         const form = e.currentTarget;
@@ -67,7 +36,7 @@ export const EditArticle = (props) => {
 
             let newArticle = new Article(title, url, is_opinion_piece, is_verified, summary, author_first_name, author_last_name, source_id);
             newArticle.id = id;
-            axios.put(`http://${props.url}:8000/articles`, newArticle).then(res => {
+            api.editArticle(newArticle).then(() => {
                 navigate("/");
             }).catch(err => {
                 console.log(err.data)
@@ -78,8 +47,28 @@ export const EditArticle = (props) => {
     }
 
     useEffect(() => {
-        getSources();
-    }, []);
+        api.getSources().then(res => {
+            setSources(res.data);
+            setLoading(false);
+            api.getArticle(id).then(res => {
+                setTitle(res.data.title);
+                setUrl(res.data.url);
+                setOpinion(res.data.is_opinion_piece);
+                setVerified(res.data.is_verified);
+                setSummary(res.data.summary);
+                setAuthorFirstName(res.data.author_first_name);
+                setAuthorLastName(res.data.author_last_name);
+                setSourceId(res.data.source_id);
+                setLoading2(false);
+            })
+                .catch(err => {
+                    console.log(err);
+                })
+        }
+        ).catch(err => {
+            console.log(err);
+        })
+    }, [])
 
     if (!props.token) {
         return (
@@ -93,7 +82,7 @@ export const EditArticle = (props) => {
 
     if (isLoading || isLoading2) {
         return (<>
-        <h1></h1>
+            <h1></h1>
         </>);
     }
 

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { Modal, Button } from "react-bootstrap";
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation} from 'react-router-dom';
+import { ApiMain } from ".";
 export const ArticleMenu = (props) => {
 
     const [show, setShow] = useState(false);
@@ -11,12 +11,16 @@ export const ArticleMenu = (props) => {
 
     const navigate = useNavigate();
 
+    const api = new ApiMain();
+
+    const pathName = useLocation().pathname;
+
     const handleDelete = () => {
-        axios.delete(`http://${props.url}:8000/articles/${props.article.id}`)
-            .then(res => {
-                console.log(res.data);
-                {props.getArticles && props.getArticles()};
-                navigate("/");
+        console.log(pathName);
+        api.deleteArticle(props.article.id)
+            .then(() => {
+                pathName != '/' && navigate("/");
+                pathName == '/' && window.location.reload();
             })
             .catch(err => {
                 console.log(err);

@@ -3,7 +3,7 @@ import { Article } from '../Common/Article';
 import { Link, useNavigate } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
-import axios from 'axios';
+import { ApiMain } from '../Common/ApiMain';
 export const AddArticle = (props) => {
 
     const [title, setTitle] = useState("");
@@ -19,16 +19,7 @@ export const AddArticle = (props) => {
     const [validated, setValidated] = useState(false);
     const [sources, setSources] = useState([]);
 
-    const getSources = () => {
-        axios.get(`http://${props.url}:8000/sources`)
-            .then(res => {
-                const sources = res.data;
-                setSources(sources);
-            })
-            .catch(err => {
-                console.log(err);
-            })
-    }
+    const api = new ApiMain();
 
     const handleSubmit = (e) => {
         const form = e.currentTarget;
@@ -40,7 +31,7 @@ export const AddArticle = (props) => {
         else {
 
             let newArticle = new Article(title, url, is_opinion_piece, is_verified, summary, author_first_name, author_last_name, source_id);
-            axios.post(`http://${props.url}:8000/articles`, newArticle).then(res => {
+            api.addArticle(newArticle).then(() => {
                 navigate("/");
             }).catch(err => {
                 console.log(err.data)
@@ -51,7 +42,12 @@ export const AddArticle = (props) => {
     }
 
     useEffect(() => {
-        getSources();
+        api.getSources().then(res => {
+            setSources(res.data);
+        } ).catch(err => {
+            console.log(err.data);
+            alert(err.data);
+        });
     }, []);
 
     if (!props.token) {

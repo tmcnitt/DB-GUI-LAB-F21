@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import { User } from '../Common/User';
 import { Link, useNavigate } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
-import axios from 'axios';
-
+import { ApiMain } from '../Common';
 
 export const Signup = (props) => {
     const [username, setUsername] = useState("");
@@ -12,6 +11,8 @@ export const Signup = (props) => {
 
     const navigate = useNavigate();
     const [validated, setValidated] = useState(false);
+
+    const api = new ApiMain();
 
     const handleSubmit = (e) => {
         const form = e.currentTarget;
@@ -24,7 +25,7 @@ export const Signup = (props) => {
 
             let newUser = new User(username, password);
             newUser["user_type"] = user_type;
-            axios.post(`http://${props.url}:8000/users`, newUser).then(res => {
+            api.signup(newUser).then(res => {
                 props.setToken(res.data.data.jwt);
                 localStorage.setItem("token", res.data.data.jwt);
                 navigate("/");

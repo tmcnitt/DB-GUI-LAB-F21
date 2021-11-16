@@ -3,8 +3,7 @@ import { Source } from '../Common/Source';
 import { Link, useNavigate } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
-import axios from 'axios';
-
+import { ApiMain } from '../Common';
 export const AddSource = (props) => {
     const [name, setName] = useState("");
     const [base_url, setBaseUrl] = useState("");
@@ -13,6 +12,8 @@ export const AddSource = (props) => {
 
     const navigate = useNavigate();
     const [validated, setValidated] = useState(false);
+
+    const api = new ApiMain();
 
     const handleSubmit = (e) => {
         const form = e.currentTarget;
@@ -23,7 +24,7 @@ export const AddSource = (props) => {
         }
         else {
             let newSource = new Source(name, base_url, owner_name, bias);
-            axios.post(`http://${props.url}:8000/sources`, newSource).then(res => {
+            api.addSource(newSource).then(() => {
                 navigate('/');
             }).catch(err => {
                 console.log(err.data);

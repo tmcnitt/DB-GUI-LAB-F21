@@ -3,7 +3,7 @@ import { Header } from "./Common/Header";
 import { BrowserRouter, Route } from 'react-router-dom';
 import { Routes } from 'react-router';
 import './App.css';
-import { AddArticle, AddSource, ArticlePage, EditArticle, Homepage, Login, Profile, Signup } from './Pages';
+import { AddArticle, AddSource, ArticlePage, EditArticle, Homepage, Login, Signup } from './Pages';
 // React functional component
 function App() {
   const [token, setToken] = useState();

@@ -43,4 +43,16 @@ export class ApiMain {
     signup (user) {
         return axios.post(`${this.url}/users`, user);
     }
+
+    getTags() {
+        return axios.get(`${this.url}/tags`);
+    }
+
+    addTag(tag) {
+        return axios.post(`${this.url}/tags`, tag);
+    }
+
+    addTagToArticle(id, tag) {
+        return axios.post(`${this.url}/articles/${id}/tags`, tag);
+    }
 }

@@ -44,7 +44,7 @@ export const AddArticle = (props) => {
     useEffect(() => {
         api.getSources().then(res => {
             setSources(res.data);
-        } ).catch(err => {
+        }).catch(err => {
             console.log(err.data);
             alert(err.data);
         });
@@ -117,6 +117,7 @@ export const AddArticle = (props) => {
                             <Form.Control.Feedback type="invalid"> Please enter a summary.</Form.Control.Feedback>
                         </Form.Group>
                     </Row>
+                    
                 </Form>
             </div>
 

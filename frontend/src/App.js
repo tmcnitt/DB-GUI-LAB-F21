@@ -3,7 +3,7 @@ import { Header } from "./Common/Header";
 import { BrowserRouter, Route } from 'react-router-dom';
 import { Routes } from 'react-router';
 import './App.css';
-import { AddArticle, AddSource, ArticlePage, EditArticle, Homepage, Login, Signup } from './Pages';
+import { AddArticle, AddSource, ArticlePage, EditArticle, Homepage, Login, Signup, TagArticle } from './Pages';
 // React functional component
 function App() {
   const [token, setToken] = useState();
@@ -25,6 +25,7 @@ function App() {
           <Route exact path="/" element={<Homepage token={token} />} />
           <Route path="/addarticle" element={<AddArticle token={token} />} />
           <Route path="/article/:id/edit" element={<EditArticle token={token} />} />
+          <Route path="/article/:id/tag" element={<TagArticle token={token} />} />
           <Route path="/addsource" element={<AddSource token={token} />} />
           <Route path="/article/:id" element={<ArticlePage token={token} />} />
         </Routes>

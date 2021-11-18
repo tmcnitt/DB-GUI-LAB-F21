@@ -5,3 +5,4 @@ export * from "./Source";
 export * from "./ArticleMenu"
 export * from "./ApiMain"
 export * from "./Tag";
+export * from "./Comment"

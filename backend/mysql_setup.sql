@@ -58,21 +58,20 @@ CREATE TABLE `comments` (
   UNIQUE KEY `id` (`id`),
 
   FOREIGN KEY (article_id) REFERENCES articles(id),
-  FOREIGN KEY (user_id) REFERENCES users(id),
-
+  FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
 
 CREATE TABLE IF NOT EXISTS `tagArticles` (
-  `id` bigint unsigned AUTO_INCREMENT NOT NULL PRIMARY KEY,
+  `id` bigint unsigned AUTO_INCREMENT NOT NULL,
   `article_id` bigint unsigned NOT NULL,
   `tag_id` bigint unsigned NOT NULL,
   `num_likes` INT NOT NULL DEFAULT 0,
-  `num_dislikes` INT NOT NULL DEFAULT 0
+  `num_dislikes` INT NOT NULL DEFAULT 0,
 
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`),
 
   FOREIGN KEY (article_id) REFERENCES articles(id),
-  FOREIGN KEY (tag_id) REFERENCES tags(id),
+  FOREIGN KEY (tag_id) REFERENCES tags(id)
 );

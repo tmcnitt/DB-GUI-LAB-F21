@@ -8,6 +8,15 @@ module.exports = function routes(app, logger) {
     res.status(200).send('Go to 0.0.0.0:3000.');
   });
 
+
+  //Return all user ids and usernames
+  app.get("/users", (req, res) => {
+    pool.query("SELECT id, username FROM users", [], (err, result) => {
+      if (err) throw err;
+      res.end(JSON.stringify(result));
+    })
+  })
+
   // Create new user
   app.post("/users", (req, res) => {
     const { username, password, user_type } = req.body;

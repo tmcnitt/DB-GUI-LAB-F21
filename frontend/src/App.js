@@ -45,8 +45,8 @@ function App() {
       <BrowserRouter>
         <Header token={updateToken} setToken={setToken} />
         <Routes>
-          <Route path="/signup" element={<Signup setToken={setToken} />} />
-          <Route path="/login" element={<Login setToken={setToken} />} />
+          <Route path="/signup" element={<Signup setToken={setToken} token={token} />} />
+          <Route path="/login" element={<Login setToken={setToken} token={token} />} />
           <Route exact path="/" element={<Homepage token={token} username={username} userType={userType} />} />
           <Route path="/addarticle" element={<AddArticle token={token} username={username} userType={userType} />} />
           <Route path="/article/:id/edit" element={<EditArticle token={token} username={username} userType={userType} />} />

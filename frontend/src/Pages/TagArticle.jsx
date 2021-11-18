@@ -49,12 +49,23 @@ export const TagArticle = (props) => {
 
     useEffect(() => {
         api.getTags().then((res) => {
-            console.log(res.data);
             setTags(res.data);
         }).catch((err) => {
             console.log(err);
-        });
-    }, []);
+        }).finally(
+            api.getArticle(id).then((res) => {
+                let tagIds = [];
+                res.data.tags.forEach((tag) => {
+                    tagIds.push(tag.id);
+                }
+                );
+                setCheckedTags(tagIds);
+            }).catch((err) => {
+                console.log(err);
+            }).finally(() => {
+                
+            })
+    )}, []);
 
     return (<div className="w-75 mx-auto pb-3">
         <div className="border rounded my-3 bg-white">
@@ -62,24 +73,36 @@ export const TagArticle = (props) => {
             <Form noValidate validated={validated} onSubmit={handleSubmit} className="pb-3 ms-2" id="add-tag-form">
                 {tags.map((tag) => {
                     return (
-                        <Form.Check key={tag.id} label={tag.content} type="checkbox" name="tag" id={tag.id} onChange={(e) => {
-                            let tagId = {tag_id: tag.id};
-                            if (e.target.checked) {
-                                api.addTagToArticle(id, tagId).then(() => {
-                                    api.getTags().then(tags => {
-                                        setTags(tags.data);
-                                    });
+                        <Form.Check key={tag.id} label={tag.content} type="checkbox" name="tag" id={tag.id} checked={checkedTags.includes(tag.id)}
+                             onChange={(e) => {
+                                let tagId = { tag_id: tag.id };
+                                if (e.target.checked) {
+                                    api.addTagToArticle(id, tagId).then(() => {
+                                        api.getArticle(id).then((res) => {
+                                            let tagIds = [];
+                                            res.data.tags.forEach((tag) => {
+                                                tagIds.push(tag.id);
+                                            }
+                                            )
+                                            setCheckedTags(tagIds);
+                                        });
+                                    }
+                                    );
+                                } else {
+                                    api.removeTagFromArticle(id, tag.id).then(() => {
+                                        api.getArticle(id).then((res) => {
+                                            let tagIds = [];
+                                            res.data.tags.forEach((tag) => {
+                                                tagIds.push(tag.id);
+                                            }
+                                            )
+                                            setCheckedTags(tagIds);
+                                        });
+                                    }
+                                    );
                                 }
-                                );
-                            } else {
-                                api.removeTagFromArticle(id, tagId).then(() => {
-                                    api.getTags().then(tags => {
-                                        setTags(tags.data);
-                                    });
-                                }
-                                );
-                            }
-                        }} />
+                                
+                            }} />
                     );
                 })}
 
@@ -96,9 +119,7 @@ export const TagArticle = (props) => {
             </Form>
         </div>
 
-        <Link to="/" class="btn btn-danger me-3">Cancel</Link>
-
-        <button class="btn btn-success" type="submit" form="add-tag-form">Submit</button>
+        <Link to="/" class="btn btn-success me-3">Done</Link>
     </div>
     )
 }

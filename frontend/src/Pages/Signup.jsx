@@ -37,10 +37,21 @@ export const Signup = (props) => {
         }
     }
 
+    if (props.token) {
+        return (
+            <div class="w-75 mx-auto">
+                <div class="border mb-2 mt-5">
+                    <h1 class="text-white bg-primary p-3 mb-0">You are already logged in</h1>
+                    {navigate('/')}
+                </div>
+            </div>
+        )
+    }
+
     return (
         <div class="w-75 mx-auto">
-            <div class="border mb-2 mt-5">
-                <h1 class="text-white bg-primary p-3 mb-0">Sign Up</h1>
+            <div class="mb-2 mt-5">
+                <h1 class="text-white bg-primary p-3 mb-0 rounded">Sign Up</h1>
                 <Form noValidate validated={validated} onSubmit={handleSubmit} id="signup-form"  className="bg-white py-2 mt-0">
                     <Form.Group className="mb-2 ms-3 col-md-4" controlId="username">
                         <Form.Label>Username</Form.Label>

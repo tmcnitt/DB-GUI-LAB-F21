@@ -1,0 +1,17 @@
+$primary: #003459;
+$secondary: #78838A;
+$success: #63D471;
+$failure: #C1292E;
+$white: #F0EFF4;
+$dark: #00171F;
+
+$theme-colors: (
+  "primary":    $primary,
+  "secondary":  $secondary,
+  "success":    $success,
+  "danger":     $failure,
+  "white":      $white,
+  "dark":       $dark
+);
+@import "../node_modules/bootstrap/scss/bootstrap";
+

@@ -43,4 +43,36 @@ export class ApiMain {
     signup (user) {
         return axios.post(`${this.url}/users`, user);
     }
+
+    checkUser (token) {
+        return axios.get(`${this.url}/users/check`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+    }
+
+    getTags() {
+        return axios.get(`${this.url}/tags`);
+    }
+
+    addTag(tag) {
+        return axios.post(`${this.url}/tags`, tag);
+    }
+
+    addTagToArticle(id, tagId) {
+        return axios.post(`${this.url}/articles/${id}/tags`, tagId);
+    }
+
+    removeTagFromArticle(id, tagId) {
+        return axios.delete(`${this.url}/articles/${id}/tags/${tagId}`);
+    }
+
+    getComments(id) {
+        return axios.get(`${this.url}/articles/${id}/comments`);
+    }
+
+    addComment(id, comment) {
+        return axios.post(`${this.url}/articles/${id}/comments`, comment);
+    }
 }

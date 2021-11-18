@@ -1,31 +1,35 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Header } from "./Common/Header";
 import { BrowserRouter, Route } from 'react-router-dom';
-import {Routes} from 'react-router';
+import { Routes } from 'react-router';
 import './App.css';
-import {Add, Article, Homepage, Login, Profile, Signup} from './Pages';
+import { AddArticle, AddSource, ArticlePage, EditArticle, Homepage, Login, Signup } from './Pages';
 // React functional component
 function App() {
-  // ENTER YOUR EC2 PUBLIC IP/URL HERE
-  const ec2_url = ''
-  // CHANGE THIS TO TRUE IF HOSTING ON EC2, MAKE SURE TO ADD IP/URL ABOVE
-  const ec2 = false;
-  // USE localhost OR ec2_url ACCORDING TO ENVIRONMENT
-  const url = ec2 ? ec2_url : 'localhost'
+  const [token, setToken] = useState();
+  const [updateToken, setUpdateToken] = useState();
+  
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    setToken(localStorage.getItem('token'));
+    setUpdateToken(token);
+  }, [token]);
 
   return (
     <div className="wrapper bg-secondary vh-auto min-vh-100 bg-gradient">
-    <BrowserRouter>
-    <Header />
-      <Routes>
-        <Route path="/signup" element={<Signup/>}/>
-        <Route path="/login" element={<Login/>}/>
-        <Route exact path="/" element={<Homepage url = {url}/>}/>
-        <Route path="/add" element={<Add url={url}/>}/>
-        <Route path="/article/:id" element={<Article url={url}/>}/>
-      </Routes>
-    </BrowserRouter>
-  </div>  
+      <BrowserRouter>
+        <Header token={updateToken} setToken={setToken}/>
+        <Routes>
+          <Route path="/signup" element={<Signup setToken={setToken} />} />
+          <Route path="/login" element={<Login setToken={setToken}/>} />
+          <Route exact path="/" element={<Homepage token={token} />} />
+          <Route path="/addarticle" element={<AddArticle token={token} />} />
+          <Route path="/article/:id/edit" element={<EditArticle token={token} />} />
+          <Route path="/addsource" element={<AddSource token={token} />} />
+          <Route path="/article/:id" element={<ArticlePage token={token} />} />
+        </Routes>
+      </BrowserRouter>
+    </div>
   );
 }
 

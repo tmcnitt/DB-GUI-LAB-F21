@@ -21,7 +21,7 @@ export const ArticlePage = (props) => {
             })
     }, [])
 
-    if (isLoading == false) {
+    if (isLoading === false) {
         api.getSource(article.source_id).then(res => {
             const source = res.data;
             setSource(source[0].name);

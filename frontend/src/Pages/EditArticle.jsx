@@ -103,7 +103,7 @@ export const EditArticle = (props) => {
                                 <option value="">Select a source</option>
                                 {sources.map(source => {
                                     return (
-                                        <option value={source.id}>{source.name}</option>
+                                        <option key={source.id} value={source.id}>{source.name}</option>
                                     )
                                 })}
                             </Form.Select>

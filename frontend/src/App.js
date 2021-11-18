@@ -21,7 +21,7 @@ function App() {
     api.checkUser(tokenn).then(res => {
       console.log('token checked');
       setToken(tokenn);
-      if (res.status == 200) {
+      if (res.status === 200) {
         setUserName(res.data.username);
         setUserType(res.data.user_type);
       }

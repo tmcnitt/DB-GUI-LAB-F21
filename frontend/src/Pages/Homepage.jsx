@@ -41,8 +41,8 @@ export const Homepage = (props) => {
           })}
           <br></br>
           <div class="d-flex justify-content-end w-75 mt-3 mx-auto">
-            {props.token && props.userType == "curator" && <Link to="/addarticle" class="btn btn-primary">Add Article</Link>}
-            {props.token && props.userType == "curator" && <Link to="/addsource" class="btn btn-primary ms-3">Add Source</Link>}
+            {props.token && props.userType === "curator" && <Link to="/addarticle" class="btn btn-primary">Add Article</Link>}
+            {props.token && props.userType === "curator" && <Link to="/addsource" class="btn btn-primary ms-3">Add Source</Link>}
           </div>
 
         </div>

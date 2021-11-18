@@ -16,7 +16,7 @@ export const Card = (props) => {
                     {(props.article.is_opinion_piece) ? <h3 class="badge bg-danger rounded-pill ms-3 text-white fs-5">Opinion</h3> : ''}
                     {(props.article.tags.map((tag) => {
                         return (
-                            <h4 class="badge bg-primary rounded-pill ms-3 text-white fs-5">{tag.content}</h4>
+                            <h4 key={tag.id} class="badge bg-primary rounded-pill ms-3 text-white fs-5">{tag.content}</h4>
                         )
                     }))}
                     <p id="information-card-content" class="ms-3">{props.article.summary}</p>

@@ -5,3 +5,4 @@ export * from './EditArticle'
 export * from './Homepage';
 export * from './Login';
 export * from './Signup';
+export * from "./TagArticle";

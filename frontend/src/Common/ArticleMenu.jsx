@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Modal, Button } from "react-bootstrap";
-import { Link, useNavigate, useLocation} from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { ApiMain } from ".";
 export const ArticleMenu = (props) => {
 
@@ -33,8 +33,9 @@ export const ArticleMenu = (props) => {
             <div class="dropdown float-end">
                 <button class="btn btn-danger dropdown-toggle mt-3 me-2" type="button" href="#" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">Menu</button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <li> <Link class="dropdown-item" to={`/article/${props.article.id}/edit`}>Edit</Link></li>
-                    <li> <button class="dropdown-item" onClick={handleShow}>Delete</button></li>
+                    <li> <Link class="dropdown-item" to={`/article/${props.article.id}/tag`}>Tag</Link></li>
+                    {props.userType == "curator" && <li> <Link class="dropdown-item" to={`/article/${props.article.id}/edit`}>Edit</Link></li>}
+                    {props.userType == "curator" && <li> <button class="dropdown-item" onClick={handleShow}>Delete</button></li>}
                 </ul>
             </div>
         }

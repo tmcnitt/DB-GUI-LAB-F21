@@ -70,11 +70,11 @@ export const EditArticle = (props) => {
         })
     }, [])
 
-    if (!props.token) {
+    if (!props.token || props.userType !== "curator") {
         return (
             <div class="w-75 mx-auto">
                 <div class="border mb-2 mt-5">
-                    <h1 class="text-white bg-primary p-3 mb-0">You must be logged in to edit an article</h1>
+                    <h1 class="text-white bg-primary p-3 mb-0">You must be logged in as a curator to edit an article</h1>
                 </div>
             </div>
         )

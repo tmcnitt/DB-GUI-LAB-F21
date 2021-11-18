@@ -12,6 +12,7 @@ function App() {
   const [token, setToken] = useState();
   const [username, setUserName] = useState();
   const [userType, setUserType] = useState();
+  const [userId, setUserId] = useState();
   const [updateToken, setUpdateToken] = useState();
 
   const api = new ApiMain();
@@ -21,13 +22,15 @@ function App() {
     api.checkUser(tokenn).then(res => {
       console.log('token checked');
       setToken(tokenn);
-      if (res.status == 200) {
+      if (res.status === 200) {
         setUserName(res.data.username);
         setUserType(res.data.user_type);
+        setUserId(res.data.id);
       }
       else {
         setUserName(null);
         setUserType(null);
+        setUserId(null);
       }
     }).catch(err => {
       console.log(err);
@@ -35,7 +38,7 @@ function App() {
     }
     ).finally(() => {
       setUpdateToken(token);
-      console.log(username, " ", userType);
+      console.log(username, userId, userType);
     }
     );
   }, [updateToken, token]);
@@ -45,14 +48,14 @@ function App() {
       <BrowserRouter>
         <Header token={updateToken} setToken={setToken} />
         <Routes>
-          <Route path="/signup" element={<Signup setToken={setToken} />} />
-          <Route path="/login" element={<Login setToken={setToken} />} />
+          <Route path="/signup" element={<Signup setToken={setToken} token={token} />} />
+          <Route path="/login" element={<Login setToken={setToken} token={token} />} />
           <Route exact path="/" element={<Homepage token={token} username={username} userType={userType} />} />
           <Route path="/addarticle" element={<AddArticle token={token} username={username} userType={userType} />} />
           <Route path="/article/:id/edit" element={<EditArticle token={token} username={username} userType={userType} />} />
           <Route path="/article/:id/tag" element={<TagArticle token={token} username={username} userType={userType} />} />
           <Route path="/addsource" element={<AddSource token={token} username={username} userType={userType} />} />
-          <Route path="/article/:id" element={<ArticlePage token={token} username={username} userType={userType} />} />
+          <Route path="/article/:id" element={<ArticlePage token={token} username={username} userType={userType} userId={userId} />} />
         </Routes>
       </BrowserRouter>
     </div>

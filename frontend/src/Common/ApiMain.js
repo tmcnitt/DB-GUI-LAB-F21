@@ -67,4 +67,12 @@ export class ApiMain {
     removeTagFromArticle(id, tagId) {
         return axios.delete(`${this.url}/articles/${id}/tags/${tagId}`);
     }
+
+    getComments(id) {
+        return axios.get(`${this.url}/articles/${id}/comments`);
+    }
+
+    addComment(id, comment) {
+        return axios.post(`${this.url}/articles/${id}/comments`, comment);
+    }
 }

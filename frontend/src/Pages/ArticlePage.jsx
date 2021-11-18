@@ -9,9 +9,14 @@ export const ArticlePage = (props) => {
     const [source, setSource] = useState('');
     const [isLoading, setLoading] = useState(true);
     const [isLoading2, setLoading2] = useState(true);
+    const [isLoading3, setLoading3] = useState(true);
+    const [isLoading4, setLoading4] = useState(true);
+    const [isLoading5, setLoading5] = useState(true);
+    const [isLoading6, setLoading6] = useState(true);
     const [validated, setValidated] = useState(false);
     const [comments, setComments] = useState([]);
     const [comment, setComment] = useState('');
+    const [users, setUsers] = useState([]);
     const { id } = useParams();
 
     const api = new ApiMain();
@@ -25,10 +30,11 @@ export const ArticlePage = (props) => {
             setValidated(true);
         }
         else {
-            let newComment={
+            let newComment = {
                 comment: comment,
                 article_id: id,
-                user_id: props.userId};
+                user_id: props.userId
+            };
             api.addComment(id, newComment).then(() => {
                 setComment('');
                 api.getComments(id).then(res => {
@@ -37,39 +43,56 @@ export const ArticlePage = (props) => {
             }).catch(err => {
                 console.log(err);
             });
-            }
         }
+    }
 
 
     useEffect(() => {
         api.getArticle(id).then(res => {
             setArticle(res.data);
             setLoading(false);
+        }).catch(err => {
+            console.log(err);
         })
-            .catch(err => {
-                console.log(err);
-            })
+        api.getUsers().then(res => {
+            setUsers(res.data);
+            setLoading3(false);
+        }
+        ).catch(err => {
+            console.log(err);
+        })
 
-            api.getComments(id).then(res => {
-                setComments(res.data);
-            }).catch(err => {
-                console.log(err);
-            }
-            )
     }, [])
 
-    if (isLoading === false) {
+    if (isLoading === false && isLoading2 === true) {
+        setLoading2(false);
         api.getSource(article.source_id).then(res => {
             const source = res.data;
             setSource(source[0].name);
-            setLoading2(false);
+            console.log(source);
+            setLoading5(false);
         })
             .catch(err => {
                 console.log(err);
             })
     }
 
-    if (isLoading || isLoading2) {
+    if (isLoading3 === false && isLoading4 === true) {
+        setLoading4(false);
+        api.getComments(id).then(res => {
+            let comments = res.data;
+            comments.map(comment => {
+                comment.username = users.find(user => user.id === comment.user_id).username;
+            })
+            console.log(comments);
+            setComments(comments);
+            setLoading6(false);
+        }).catch(err => {
+            console.log(err);
+        })
+    }
+
+    if (isLoading || isLoading2 || isLoading5 || isLoading6) {
         return (<>
             <h1></h1>
         </>);
@@ -104,8 +127,8 @@ export const ArticlePage = (props) => {
                     </Row>
                     <button type="submit" form="commentForm" class="btn btn-success col-md-1 ms-3 mt-3 mb-3">Submit</button>
                 </Form>
-            </div> }
-            
+            </div>}
+
 
             <div class="w-75 mx-auto mt-3 mb-3 bg-white rounded">
                 <h3 class="bg-primary rounded text-white p-3">Comments</h3>
@@ -114,8 +137,8 @@ export const ArticlePage = (props) => {
                         <Comment comment={comment} />
                     )
                 })}
-                <div class="pb-2"/>
-                </div>
+                <div class="pb-2" />
+            </div>
         </div>
     );
 }

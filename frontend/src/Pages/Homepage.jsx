@@ -31,18 +31,20 @@ export const Homepage = (props) => {
 
   return (
     <>
-      <div class="w-75 m-auto">
-        <div class="d-flex justify-content-end mt-3">
-          {props.token && props.userType == "curator" && <Link to="/addarticle" class="btn btn-success">Add Article</Link>}
-          {props.token && props.userType == "curator" && <Link to="/addsource" class="btn btn-success ms-3">Add Source</Link>}
-        </div>
-        <br></br>
+      <div class="m-auto">
         <div class="d-flex flex-column-reverse">
+
           {articles.map(article => {
             return (
-              <Card key={article.id} article={article} source={sources[article.source_id - 1].name} token={props.token}  username={props.username} userType={props.userType}/>
+              <Card key={article.id} article={article} source={sources[article.source_id - 1].name} token={props.token} username={props.username} userType={props.userType} />
             )
           })}
+          <br></br>
+          <div class="d-flex justify-content-end w-75 mt-3 mx-auto">
+            {props.token && props.userType == "curator" && <Link to="/addarticle" class="btn btn-primary">Add Article</Link>}
+            {props.token && props.userType == "curator" && <Link to="/addsource" class="btn btn-primary ms-3">Add Source</Link>}
+          </div>
+
         </div>
       </div>
     </>)

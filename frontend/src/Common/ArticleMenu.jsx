@@ -46,7 +46,7 @@ export const ArticleMenu = (props) => {
             </Modal.Header>
             <Modal.Body>Are you sure you want to delete this article?</Modal.Body>
             <Modal.Footer>
-                <Button variant="secondary" onClick={handleClose}>
+                <Button variant="secondary text-white" onClick={handleClose}>
                     Cancel
                 </Button>
                 <Button variant="danger" onClick={handleDelete}>

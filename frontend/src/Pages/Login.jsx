@@ -25,7 +25,6 @@ export const Login = (props) => {
                 props.setToken(res.data.data.jwt);
                 localStorage.setItem('token', res.data.data.jwt);
                 navigate("/");
-                console.log(res.data.data)
                 console.log('logged in');
             }).catch(err => {
                 console.log(err)

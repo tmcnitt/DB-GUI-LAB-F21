@@ -6,7 +6,7 @@ export const Card = (props) => {
     return (
         <>
             <div id="information-card" class="border rounded mb-3 w-75 mx-auto bg-white">
-                <ArticleMenu article={props.article} url={props.url} token={props.token} />
+                <ArticleMenu article={props.article} url={props.url} token={props.token}  username={props.username} userType={props.userType}/>
                 <Link class="text-decoration-none text-reset" to={`/article/${props.article.id}`}>
                     <h1 id="information-card-title" class="bg-primary rounded text-white p-3">{props.article.title}</h1>
                     <p id="information-card-timestamp" class="me-3 float-end">{new Date(Date.parse(props.article.created_timestamp)).toLocaleString('en-us', { month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric', timeZone: "CST" })}</p>

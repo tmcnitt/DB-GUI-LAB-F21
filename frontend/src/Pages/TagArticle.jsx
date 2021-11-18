@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { Form } from "react-bootstrap";
 import { ApiMain } from "../Common";
-import {Tag} from "../Common/Tag";
+import { Tag } from "../Common/Tag";
 export const TagArticle = (props) => {
     const { id } = useParams();
     const [tags, setTags] = useState([]);
@@ -35,8 +35,7 @@ export const TagArticle = (props) => {
             e.stopPropagation();
             setValidatedAddTag(true);
         }
-        else
-        {
+        else {
             let newTag = new Tag(tagName);
             api.addTag(newTag).then(() => {
                 api.getTags().then(tags => {
@@ -50,6 +49,7 @@ export const TagArticle = (props) => {
 
     useEffect(() => {
         api.getTags().then((res) => {
+            console.log(res.data);
             setTags(res.data);
         }).catch((err) => {
             console.log(err);
@@ -63,16 +63,22 @@ export const TagArticle = (props) => {
                 {tags.map((tag) => {
                     return (
                         <Form.Check key={tag.id} label={tag.content} type="checkbox" name="tag" id={tag.id} onChange={(e) => {
-                            let currentTags = checkedTags;
+                            let tagId = {tag_id: tag.id};
                             if (e.target.checked) {
-                                currentTags.push(tag);
+                                api.addTagToArticle(id, tagId).then(() => {
+                                    api.getTags().then(tags => {
+                                        setTags(tags.data);
+                                    });
+                                }
+                                );
                             } else {
-                                currentTags = currentTags.filter((t) => {
-                                    return t.id != tag.id;
-                                })
+                                api.removeTagFromArticle(id, tagId).then(() => {
+                                    api.getTags().then(tags => {
+                                        setTags(tags.data);
+                                    });
+                                }
+                                );
                             }
-                            setCheckedTags(currentTags);
-                            console.log(currentTags);
                         }} />
                     );
                 })}

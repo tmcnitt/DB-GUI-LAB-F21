@@ -44,6 +44,14 @@ export class ApiMain {
         return axios.post(`${this.url}/users`, user);
     }
 
+    checkUser (token) {
+        return axios.get(`${this.url}/users/check`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+    }
+
     getTags() {
         return axios.get(`${this.url}/tags`);
     }
@@ -52,7 +60,11 @@ export class ApiMain {
         return axios.post(`${this.url}/tags`, tag);
     }
 
-    addTagToArticle(id, tag) {
-        return axios.post(`${this.url}/articles/${id}/tags`, tag);
+    addTagToArticle(id, tagId) {
+        return axios.post(`${this.url}/articles/${id}/tags`, tagId);
+    }
+
+    removeTagFromArticle(id, tagId) {
+        return axios.delete(`${this.url}/articles/${id}/tags/${tagId}`);
     }
 }

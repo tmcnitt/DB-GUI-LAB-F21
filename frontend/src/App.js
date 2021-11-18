@@ -4,7 +4,9 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import { Routes } from 'react-router';
 import { ApiMain } from './Common';
 import './App.css';
+import './custom-theme.scss';
 import { AddArticle, AddSource, ArticlePage, EditArticle, Homepage, Login, Signup, TagArticle } from './Pages';
+
 // React functional component
 function App() {
   const [token, setToken] = useState();

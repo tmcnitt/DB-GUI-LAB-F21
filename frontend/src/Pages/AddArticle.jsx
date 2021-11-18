@@ -44,17 +44,17 @@ export const AddArticle = (props) => {
     useEffect(() => {
         api.getSources().then(res => {
             setSources(res.data);
-        } ).catch(err => {
+        }).catch(err => {
             console.log(err.data);
             alert(err.data);
         });
     }, []);
 
-    if (!props.token) {
+    if (!props.token || props.userType !== "curator") {
         return (
             <div class="w-75 mx-auto">
                 <div class="border mb-2 mt-5">
-                    <h1 class="text-white bg-primary p-3 mb-0">You must be logged in to add an article</h1>
+                    <h1 class="text-white bg-primary p-3 mb-0">You must be logged in as a curator to add an article</h1>
                 </div>
             </div>
         )
@@ -117,6 +117,7 @@ export const AddArticle = (props) => {
                             <Form.Control.Feedback type="invalid"> Please enter a summary.</Form.Control.Feedback>
                         </Form.Group>
                     </Row>
+                    
                 </Form>
             </div>
 

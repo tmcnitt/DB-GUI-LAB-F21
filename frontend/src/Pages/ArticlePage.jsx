@@ -40,12 +40,12 @@ export const ArticlePage = (props) => {
 
 
     return (
-        <div class="w-75 mx-auto pb-4">
-            <div class="d-flex justify-content-start mt-3">
-                <Link to="/" class="btn btn-success">Back</Link>
+        <div class="mx-auto pb-4">
+            <div class="w-75 mt-3 mx-auto">
+                <Link to="/" class="btn btn-primary">Back</Link>
             </div>
-            <div class="w-75 mx-auto mt-3 mb-3 bg-white border rounded">
-                <ArticleMenu article={article} token={props.token} />
+            <div class="w-75 mx-auto mt-3 mb-3 bg-white rounded">
+                <ArticleMenu article={article} token={props.token} username={props.username} userType={props.userType} />
                 <h1 class="bg-primary rounded text-white p-3">{article.title}</h1>
                 <h2 class="ms-3 fs-3">By: {article.author_first_name + ' ' + article.author_last_name}</h2>
                 <h4 class="ms-3 fs-3 justify-content-start fs-4">Source: {source}</h4>

@@ -52,6 +52,10 @@ export class ApiMain {
         });
     }
 
+    getUsers() {
+        return axios.get(`${this.url}/users`);
+    }
+
     getTags() {
         return axios.get(`${this.url}/tags`);
     }

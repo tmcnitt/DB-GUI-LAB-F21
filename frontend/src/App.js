@@ -34,7 +34,6 @@ function App() {
       }
     }).catch(err => {
       console.log(err);
-      setUpdateToken(token);
     }
     ).finally(() => {
       setUpdateToken(token);

@@ -44,6 +44,18 @@ export class ApiMain {
         return axios.post(`${this.url}/users`, user);
     }
 
+    checkUser (token) {
+        return axios.get(`${this.url}/users/check`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+    }
+
+    getUsers() {
+        return axios.get(`${this.url}/users`);
+    }
+
     getTags() {
         return axios.get(`${this.url}/tags`);
     }
@@ -52,7 +64,19 @@ export class ApiMain {
         return axios.post(`${this.url}/tags`, tag);
     }
 
-    addTagToArticle(id, tag) {
-        return axios.post(`${this.url}/articles/${id}/tags`, tag);
+    addTagToArticle(id, tagId) {
+        return axios.post(`${this.url}/articles/${id}/tags`, tagId);
+    }
+
+    removeTagFromArticle(id, tagId) {
+        return axios.delete(`${this.url}/articles/${id}/tags/${tagId}`);
+    }
+
+    getComments(id) {
+        return axios.get(`${this.url}/articles/${id}/comments`);
+    }
+
+    addComment(id, comment) {
+        return axios.post(`${this.url}/articles/${id}/comments`, comment);
     }
 }

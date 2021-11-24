@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { Form } from "react-bootstrap";
 import { ApiMain } from "../Common";
-import {Tag} from "../Common/Tag";
+import { Tag } from "../Common/Tag";
 export const TagArticle = (props) => {
     const { id } = useParams();
     const [tags, setTags] = useState([]);
@@ -35,8 +35,7 @@ export const TagArticle = (props) => {
             e.stopPropagation();
             setValidatedAddTag(true);
         }
-        else
-        {
+        else {
             let newTag = new Tag(tagName);
             api.addTag(newTag).then(() => {
                 api.getTags().then(tags => {
@@ -53,8 +52,20 @@ export const TagArticle = (props) => {
             setTags(res.data);
         }).catch((err) => {
             console.log(err);
-        });
-    }, []);
+        }).finally(
+            api.getArticle(id).then((res) => {
+                let tagIds = [];
+                res.data.tags.forEach((tag) => {
+                    tagIds.push(tag.id);
+                }
+                );
+                setCheckedTags(tagIds);
+            }).catch((err) => {
+                console.log(err);
+            }).finally(() => {
+                
+            })
+    )}, []);
 
     return (<div className="w-75 mx-auto pb-3">
         <div className="border rounded my-3 bg-white">
@@ -62,18 +73,36 @@ export const TagArticle = (props) => {
             <Form noValidate validated={validated} onSubmit={handleSubmit} className="pb-3 ms-2" id="add-tag-form">
                 {tags.map((tag) => {
                     return (
-                        <Form.Check key={tag.id} label={tag.content} type="checkbox" name="tag" id={tag.id} onChange={(e) => {
-                            let currentTags = checkedTags;
-                            if (e.target.checked) {
-                                currentTags.push(tag);
-                            } else {
-                                currentTags = currentTags.filter((t) => {
-                                    return t.id != tag.id;
-                                })
-                            }
-                            setCheckedTags(currentTags);
-                            console.log(currentTags);
-                        }} />
+                        <Form.Check key={tag.id} label={tag.content} type="checkbox" name="tag" id={tag.id} checked={checkedTags.includes(tag.id)}
+                             onChange={(e) => {
+                                let tagId = { tag_id: tag.id };
+                                if (e.target.checked) {
+                                    api.addTagToArticle(id, tagId).then(() => {
+                                        api.getArticle(id).then((res) => {
+                                            let tagIds = [];
+                                            res.data.tags.forEach((tag) => {
+                                                tagIds.push(tag.id);
+                                            }
+                                            )
+                                            setCheckedTags(tagIds);
+                                        });
+                                    }
+                                    );
+                                } else {
+                                    api.removeTagFromArticle(id, tag.id).then(() => {
+                                        api.getArticle(id).then((res) => {
+                                            let tagIds = [];
+                                            res.data.tags.forEach((tag) => {
+                                                tagIds.push(tag.id);
+                                            }
+                                            )
+                                            setCheckedTags(tagIds);
+                                        });
+                                    }
+                                    );
+                                }
+                                
+                            }} />
                     );
                 })}
 
@@ -90,9 +119,7 @@ export const TagArticle = (props) => {
             </Form>
         </div>
 
-        <Link to="/" class="btn btn-danger me-3">Cancel</Link>
-
-        <button class="btn btn-success" type="submit" form="add-tag-form">Submit</button>
+        <Link to="/" class="btn btn-success me-3">Done</Link>
     </div>
     )
 }

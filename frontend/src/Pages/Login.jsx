@@ -25,7 +25,6 @@ export const Login = (props) => {
                 props.setToken(res.data.data.jwt);
                 localStorage.setItem('token', res.data.data.jwt);
                 navigate("/");
-                console.log(res.data.data)
                 console.log('logged in');
             }).catch(err => {
                 console.log(err)
@@ -34,10 +33,21 @@ export const Login = (props) => {
         }
     }
 
+    if (props.token) {
+        return (
+            <div class="w-75 mx-auto">
+                <div class="border mb-2 mt-5">
+                    <h1 class="text-white bg-primary p-3 mb-0">You are already logged in</h1>
+                    {navigate('/')}
+                </div>
+            </div>
+        )
+    }
+
     return (
         <div class="w-75 mx-auto">
-            <div class="border mb-2 mt-5">
-                <h1 class="text-white bg-primary p-3 mb-0">Login</h1>
+            <div class="mb-2 mt-5">
+                <h1 class="text-white bg-primary p-3 mb-0 rounded">Login</h1>
                 <Form noValidate validated={validated} id="login-form" onSubmit={handleSubmit} className="bg-white py-2 mt-0">
                     <Form.Group className="mb-2 ms-3 col-md-4" controlId="username">
                         <Form.Label>Username</Form.Label>

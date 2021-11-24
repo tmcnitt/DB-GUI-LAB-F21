@@ -19,8 +19,8 @@ export const ArticleMenu = (props) => {
         console.log(pathName);
         api.deleteArticle(props.article.id)
             .then(() => {
-                pathName != '/' && navigate("/");
-                pathName == '/' && window.location.reload();
+                pathName !== '/' && navigate("/");
+                pathName === '/' && window.location.reload();
             })
             .catch(err => {
                 console.log(err);
@@ -34,8 +34,8 @@ export const ArticleMenu = (props) => {
                 <button class="btn btn-danger dropdown-toggle mt-3 me-2" type="button" href="#" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">Menu</button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <li> <Link class="dropdown-item" to={`/article/${props.article.id}/tag`}>Tag</Link></li>
-                    <li> <Link class="dropdown-item" to={`/article/${props.article.id}/edit`}>Edit</Link></li>
-                    <li> <button class="dropdown-item" onClick={handleShow}>Delete</button></li>
+                    {props.userType === "curator" && <li> <Link class="dropdown-item" to={`/article/${props.article.id}/edit`}>Edit</Link></li>}
+                    {props.userType === "curator" && <li> <button class="dropdown-item" onClick={handleShow}>Delete</button></li>}
                 </ul>
             </div>
         }
@@ -46,7 +46,7 @@ export const ArticleMenu = (props) => {
             </Modal.Header>
             <Modal.Body>Are you sure you want to delete this article?</Modal.Body>
             <Modal.Footer>
-                <Button variant="secondary" onClick={handleClose}>
+                <Button variant="secondary text-white" onClick={handleClose}>
                     Cancel
                 </Button>
                 <Button variant="danger" onClick={handleDelete}>

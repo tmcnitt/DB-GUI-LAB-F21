@@ -26,9 +26,8 @@ export const SearchTags = (props) => {
             <Form onSubmit={handleSubmit} className="pb-3 ms-2" id="search-tag-form">
                 {tags.map((tag) => {
                     return (
-                        <Form.Check key={tag.id} label={tag.content} type="checkbox" name="tag" id={tag.id} checked={props.currentTags.includes(tag.id)}
+                        <Form.Check key={tag.id} label={tag.content} type="checkbox" name="tag" id={tag.id} checked={checkedTags.includes(tag.id)}
                             onChange={(e) => {
-                                checked = !checked;
                                 let tagId = { tag_id: tag.id };
                                 
                                 if (e.target.checked) {
@@ -38,8 +37,10 @@ export const SearchTags = (props) => {
 
                                 } else {
                                     let selectedTags = checkedTags;
-                                    let index = selectedTags.indexOf(tagId);
-                                    selectedTags.slice(index);
+                                    let index = selectedTags.indexOf(tag.id);
+                                    console.log(index);
+                                    selectedTags.splice(index, 1);
+                                    console.log(selectedTags);
                                     setCheckedTags(selectedTags);
                                 }
                             }}/>

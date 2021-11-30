@@ -26,10 +26,9 @@ export const SearchTags = (props) => {
             <Form onSubmit={handleSubmit} className="pb-3 ms-2" id="search-tag-form">
                 {tags.map((tag) => {
                     return (
-                        <Form.Check key={tag.id} label={tag.content} type="checkbox" name="tag" id={tag.id} checked={checkedTags.includes(tag.id)}
+                        <Form.Check key={tag.id} label={tag.content} type="checkbox" name="tag" id={tag.id} defaultChecked={checkedTags.includes(tag.id)}
                             onChange={(e) => {
                                 let tagId = { tag_id: tag.id };
-                                
                                 if (e.target.checked) {
                                     let selectedTags = checkedTags;
                                     selectedTags.push(tag.id);

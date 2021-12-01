@@ -5,7 +5,7 @@ import { Routes } from 'react-router';
 import { ApiMain } from './Common';
 import './App.css';
 import './custom-theme.scss';
-import { AddArticle, AddSource, ArticlePage, EditArticle, Homepage, Login, Signup, TagArticle } from './Pages';
+import { AddArticle, AddSource, ArticlePage, EditArticle, Homepage, Login, Signup, TagArticle, SearchTags } from './Pages';
 
 // React functional component
 function App() {
